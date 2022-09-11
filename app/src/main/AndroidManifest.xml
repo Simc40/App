@@ -252,11 +252,6 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".authentication.Register"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
             android:name=".authentication.Login"
             android:exported="true"
             android:screenOrientation="portrait"

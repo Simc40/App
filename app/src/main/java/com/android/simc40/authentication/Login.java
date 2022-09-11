@@ -98,11 +98,6 @@ public class Login extends AppCompatActivity implements FirebaseUserPaths, Fireb
             }
             passwordForm.setSelection(passwordForm.getText().length());
         });
-
-        register.setOnClickListener(v -> {
-            if (doubleClick.detected()) return;
-            startActivity(new Intent(Login.this, Register.class));
-        });
     }
 
     private void loginUser(String email, String password) {
