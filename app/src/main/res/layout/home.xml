@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".home.Home">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        style="@style/horizontalMargin20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034">
+
+        <ImageView
+            android:id="@+id/logo"
+            style="@style/logo"
+            android:contentDescription="@string/todo" />
+
+        <TextView
+            android:id="@+id/goBack"
+            style="@style/goBack"
+            android:layout_marginTop="10dp"
+            android:text="@string/homeLogOut" />
+
+        <TextView
+            android:id="@+id/changeReader"
+            style="@style/goBack"
+            android:gravity="center"
+            android:layout_alignEnd="@id/logo"
+            android:layout_marginEnd="10dp"
+            android:text="Trocar\nLeitor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/userInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintVertical_bias="0.024">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/avatar"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/male_avatar"
+            app:strokeColor="@null"/>
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avatar"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/clientName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userName"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TableLayout
+        style="@style/tableGridView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userInfo"
+        app:layout_constraintVertical_bias="0.0">
+        <TableRow
+            style="@style/tableRow">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card1"
+                style="@style/gridViewLeftCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/user_cog" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/homeCard1"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card2"
+                style="@style/gridViewRightCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                <ImageView
+                    style="@style/imageFromCard"
+                    android:src="@drawable/rfid" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/homeCard2"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+
+        <TableRow
+            style="@style/tableRow">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card3"
+                style="@style/gridViewLeftCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/chart" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/homeCard3"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card4"
+                style="@style/gridViewRightCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/logistic" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/homeCard4"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+
+        <TableRow
+            style="@style/tableRow">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card5"
+                style="@style/gridViewLeftCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/quality" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/homeCard5"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card6"
+                style="@style/gridViewRightCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/enterprise" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/homeCard6"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

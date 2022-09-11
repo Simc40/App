@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical"
+    tools:context=".moduloQualidade.relatorio_erros.SolucionarErro">
+
+    <RelativeLayout
+        android:id="@+id/logoHeader"
+        android:layout_marginTop="20dp"
+        style="@style/horizontalMargin20dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            style="@style/logo"
+            android:contentDescription="@string/todo" />
+
+        <TextView
+            android:id="@+id/goBack"
+            style="@style/goBack"
+            android:layout_marginTop="10dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/blackTitle"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/solucionar_inconformidade"/>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        style="@style/horizontalMargin20dp">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/comentarioHeader"
+            style="@style/layoutMatchWrap"
+            app:cardBackgroundColor="@color/black">
+            <TextView
+                style="@style/mQualidadeBlackHeaderText"
+                android:text="@string/comentarios"/>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_below="@+id/comentarioHeader"
+            style="@style/WhiteCard">
+            <EditText
+                android:id="@+id/comentarios"
+                android:background="@null"
+                style="@style/WhiteCardText"
+                android:hint="@string/comentar"
+                tools:ignore="Autofill"
+                android:inputType="textMultiLine"
+                android:importantForAutofill="no" />
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            style="@style/mQualidadeWhiteViewUnderBlackHeader"
+            android:layout_below="@+id/comentarioHeader"/>
+    </RelativeLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/adicionarImagem"
+        app:cardBackgroundColor="@color/blueButton"
+        style="@style/mQualidadeButton">
+        <TextView
+            style="@style/mQualidadeButtonText"
+            android:textColor="@color/white"
+            android:text="@string/adicionar_imagem"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/visualizarImagem"
+        style="@style/blackTitle"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:text="@string/visualizar"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/submitForm"
+        app:cardBackgroundColor="@color/greenButton"
+        android:layout_marginBottom="20dp"
+        style="@style/mQualidadeButton">
+        <TextView
+            style="@style/mQualidadeButtonText"
+            android:textColor="@color/white"
+            android:text="@string/finalizar2"/>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

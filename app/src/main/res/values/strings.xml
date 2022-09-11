@@ -1,0 +1,251 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    //App Name
+    <string name="app_name">simc4.0</string>
+
+    //Repeated Isolated Strings
+    <string name="defaultErrorMessage">message</string>
+    <string name="todo">TODO</string>
+
+    //PDF
+    <string name="visualizarPDF">Visualizar PDF</string>
+
+    //Erros
+    <string name="reportarErroInformacao">Reportar\nInformação Incorreta</string>
+
+    //Dialogs
+    <string name="erro">OPS!</string>
+    <string name="ok">OK</string>
+
+    //Go Back Button
+    <string name="goBack"><![CDATA[< Voltar]]></string>
+
+    //Modificação e Criação
+    <string name="dataCriacao">Criada em\n Sistema</string>
+    <string name="autorCriacao">Criada em\n Sistema Por</string>
+    <string name="dataCriacaoShort">Criada em: </string>
+    <string name="autorCriacaoShort">Criada Por: </string>
+    <string name="ultimaModificacao">Ultima\nModificação</string>
+    <string name="autorModificacao">Modificado\nPor</string>
+
+    //Login
+    <string name="loginTitle">Sistema Integrado</string>
+    <string name="loginEmail">Email</string>
+    <string name="loginPassword">Senha</string>
+    <string name="loginButton">Acessar</string>
+    <string name="loginRegister">Não tem conta? Solicite a sua conta aqui!</string>
+
+    //Home
+    <string name="homeLogOut">LogOut</string>
+    <string name="homeCard1">Configuração\nde Usuário</string>
+    <string name="homeCard2">Configurações\ndo leitor</string>
+    <string name="homeCard3">Modulo de\nGerenciamento</string>
+    <string name="homeCard4">Módulo de\nLogística</string>
+    <string name="homeCard5">Módulo de\nQualidade</string>
+    <string name="homeCard6">Supervisão e\nRelatório</string>
+
+    //SelecaoListas
+    <string name="selecaoListaObras">Selecione uma Obra</string>
+    <string name="selecaoListaClientes">Selecione um Cliente</string>
+    <string name="selecaoListaGalpões">Galpões</string>
+    <string name="selecaoListaElementos">Selecione um Elemento</string>
+    <string name="selecaoListaVeiculos">Selecione um Veículo</string>
+    <string name="selecaoListaEtapas">Selecione uma Etapa</string>
+    <string name="selecaoListaUsuarios">Selecione um Usuário</string>
+    <string name="selecaoListaLeitores">Selecione um Leitor</string>
+
+    //Modulo de Gerenciamento
+    <string name="moduloGerenciamentoTitle">Módulo de Gerenciamento</string>
+    <string name="moduloGerenciamentoObrasTitle">Obras</string>
+    <string name="moduloGerenciamentoElementosTitle">Elementos</string>
+    <string name="moduloGerenciamentoVeiculosTitle">Veículos</string>
+    <string name="moduloGerenciamentoAcessosTitle">Acessos</string>
+    <string name="moduloGerenciamentoCheckListTitle">CheckList</string>
+    <string name="moduloGerenciamentoGalpoesTitle">Galpões</string>
+
+    //Gerenciamento Obras
+    <string name="moduloGerenciamentoObrasNomeDaObra">Nome da Obra</string>
+    <string name="moduloGerenciamentoObrasResponsavel">Responsável</string>
+    <string name="moduloGerenciamentoObrasTipoConstrucao">Tipo de Constução</string>
+    <string name="moduloGerenciamentoObrasTableTitle">Informações da Obra</string>
+    <string name="moduloGerenciamentoObrasCEP">CEP</string>
+    <string name="moduloGerenciamentoObrasCidade">Cidade</string>
+    <string name="moduloGerenciamentoObrasBairro">Bairro</string>
+    <string name="moduloGerenciamentoObrasEndereco">Endereço</string>
+    <string name="moduloGerenciamentoObrasUF">UF</string>
+    <string name="moduloGerenciamentoObrasQuantidadePecas">Peças\nPlanejadas</string>
+    <string name="moduloGerenciamentoObrasPrevisaoInicio">Previsão\nde Início</string>
+    <string name="moduloGerenciamentoObrasPrevisaoFim">Previsão\nde Entrega</string>
+
+    //Gerenciamento Elementos
+    <string name="moduloGerenciamentoElementosObra">Pertencente a Obra</string>
+    <string name="moduloGerenciamentoElementosNome">Nome do Elemento</string>
+    <string name="moduloGerenciamentoElementosTipo">Tipo do Elemento</string>
+    <string name="moduloGerenciamentoElementosTableTitle">Informações do Elemento</string>
+    <string name="moduloGerenciamentoElementosForma">Forma</string>
+    <string name="moduloGerenciamentoElementosB">b</string>
+    <string name="moduloGerenciamentoElementosH">h</string>
+    <string name="moduloGerenciamentoElementosC">c</string>
+    <string name="moduloGerenciamentoElementosPecasPlanejadas">Peças\nPlanejadas</string>
+    <string name="moduloGerenciamentoElementosPecasCadastradas">Peças\nCadastradas</string>
+    <string name="moduloGerenciamentoElementosFckDesforma">Fck\nDesforma</string>
+    <string name="moduloGerenciamentoElementosFckIcamento">Fck\nIçamento</string>
+    <string name="moduloGerenciamentoElementosVolume">Volume</string>
+    <string name="moduloGerenciamentoElementosPeso">Peso</string>
+    <string name="moduloGerenciamentoElementosTaxaAco">Peso do Aço</string>
+
+    //Gerenciamento Veiculos
+    <string name="moduloGerenciamentoVeiculosTransportadora">Transportadora</string>
+    <string name="moduloGerenciamentoVeiculosPlaca">Placa</string>
+    <string name="moduloGerenciamentoVeiculosMarca">Marca</string>
+    <string name="moduloGerenciamentoVeiculosModelo">Modelo</string>
+    <string name="moduloGerenciamentoVeiculosCapacidadeCarga">Capacidade de Carga</string>
+    <string name="moduloGerenciamentoVeiculosNumeroEixos">Numero de Eixos</string>
+    <string name="moduloGerenciamentoVeiculosPeso">Peso</string>
+
+    //Gerenciamento Acessos
+    <string name="moduloGerenciamentoAcessosNome">Nome do Usuário</string>
+    <string name="moduloGerenciamentoAcessosAccessLevel">Nível de Acesso</string>
+    <string name="moduloGerenciamentoAcessosTableTitle">Informações do Usuário</string>
+    <string name="moduloGerenciamentoAcessosMatricula">Matrícula</string>
+    <string name="moduloGerenciamentoAcessosEmail">Email</string>
+    <string name="moduloGerenciamentoAcessosEmpresa">Empresa</string>
+    <string name="moduloGerenciamentoAcessosTelefone">Telefone</string>
+    <string name="moduloGerenciamentoAcessosPermissoes">Permissões</string>
+    <string name="moduloGerenciamentoAcessosPermissoesApp">Aplicativo</string>
+    <string name="moduloGerenciamentoAcessosPermissoesReport">Modulo de Relatórios</string>
+    <string name="moduloGerenciamentoAcessosSubmit">Modificar Permissões</string>
+
+    //Configuração de Usuário
+    <string name="configuracaoUsuarioSubmit">Atualizar Foto de Perfil</string>
+
+    //Reader UHF 1128 testPage
+    <string name="action_settings">Configuração</string>
+    <string name="target_epc_label">Tag (Hex)</string>
+    <string name="word_address_label">Filtrar Por\n(TAGs)</string>
+    <string name="word_count_label">Nº Leituras\n(TAGs)</string>
+    <string name="memory_bank_label">Memória</string>
+    <string name="data_label">Dados a serem gravados (Hex)</string>
+    <string name="power_level_label_text">dBm</string>
+    <string name="write_button_text">GRAVAR</string>
+    <string name="read_button_text">LER</string>
+    <string name="clear_button_text">LIMPAR</string>
+    <string name="tag_info_text">EPCs parciais são combinados desde o início e as ações afetarão várias tags. A ação de gravação deve ter pelo menos um EPC parcial especificado.</string>
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    <string name="addImage">Adicionar Imagem</string>
+    <string name="submitForm">Enviar</string>
+    <string name="usuario">usuario</string>
+
+    <string name="cadastroObra">Cadastro de\nObra</string>
+    <string name="preCadastroPecas">Pré-Cadatro\nde Peças</string>
+    <string name="cadastroVeiculos">Cadastro de\nVeículos</string>
+    <string name="acessoUsuarios">Acesso de Usuários</string>
+    <string name="gerenciarPDF">Gerenciar PDF\n</string>
+    <string name="gerenciarGalpoes">Gerenciar\nGalpões</string>
+    <string name="moduloLogistica">Módulo de Logística</string>
+    <string name="status">Status\n</string>
+    <string name="historico">Histórico\n</string>
+    <string name="moduloQualidade">Módulo de Qualidade</string>
+
+
+    <string name="connect_reader_menu_item_text">Connect Reader</string>
+    <string name="change_reader_menu_item_text">Change Reader</string>
+    <string name="disconnect_reader_menu_item_text">Disconnect Reader</string>
+    <string name="obras">Obras</string>
+    <string name="leitura_da_tag">Leitura da TAG</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="montagem">Montagem</string>
+    <string name="nome_da_peca">Nome da Peça</string>
+    <string name="obra">Obra</string>
+    <string name="visualizar_projeto_de_locacao">Visualizar Projeto de Locação</string>
+    <string name="visualizar_projeto_de_peca">Visualizar projeto de peça</string>
+    <string name="informacoes_de_projeto">Informações de Projeto</string>
+    <string name="finalizar_projeto">Finalizar Projeto</string>
+    <string name="cadastro_de_modelo">Cadastro de Modelo</string>
+    <string name="tipo_de_peca">Tipo de Peça</string>
+    <string name="tipo_de_forma">Tipo de Forma</string>
+    <string name="tipo_de_modelo">Tipo de Modelo</string>
+    <string name="nome_do_modelo">Nome do Modelo</string>
+    <string name="Nome">Nome</string>
+    <string name="informacoes_do_modelo">Informações do Modelo</string>
+    <string name="h">h</string>
+    <string name="h_m">h (m)</string>
+    <string name="b">b (cm)</string>
+    <string name="c">c</string>
+    <string name="h_cm">h (cm)</string>
+    <string name="c_cm">c (cm)</string>
+    <string name="fck_desf">fck (desf)</string>
+    <string name="fck_desforma_mpa">Fck (desforma) Mpa</string>
+    <string name="fck_icam">fck (içam)</string>
+    <string name="fck_icamento_mpa">Fck (Içamento) Mpa</string>
+    <string name="volume">volume</string>
+    <string name="volume_m3">volume (m³)</string>
+    <string name="taxa_de_aco">taxa de aço</string>
+    <string name="taxa_de_aco_kg">taxa de aço (Kg)</string>
+    <string name="peso">peso</string>
+    <string name="peso_kg">peso (Kg)</string>
+    <string name="inserir_pdf">Inserir PDF</string>
+    <string name="finalizar">Finalizar ></string>
+    <string name="finalizar2">Finalizar</string>
+    <string name="forma">Forma</string>
+    <string name="numero_de_pecas_planejadas">Número de Peças Planejadas</string>
+    <string name="numero">Número</string>
+    <string name="cadastro_de_peca">Cadastro de Peça</string>
+    <string name="elemento_da_peca">Elemento da Peça</string>
+    <string name="reportar_erro">Reportar Erro</string>
+    <string name="selecionar_elemento">Selecionar Elemento</string>
+    <string name="tag">Tag</string>
+    <string name="stop_button_text">STOP</string>
+    <string name="tags_lidas">Tags Lidas:</string>
+    <string name="logout">LogOut</string>
+    <string name="clientes">Clientes</string>
+    <string name="cliente">cliente</string>
+    <string name="gerenciar_checklist">Gerenciar Checklist</string>
+    <string name="gerenciar_checklist_nproducao">Gerenciar Checklist\nProdução</string>
+    <string name="adicionar_item">Adicionar Item: </string>
+    <string name="adicionar_nitem">Adicionar\nItem</string>
+    <string name="adicionar">Adicionar: </string>
+    <string name="armacao">Armação</string>
+    <string name="leia_a_tag">Leia a Tag</string>
+    <string name="confirm">confirm</string>
+    <string name="relatar_erro_de_planejamento">Relatar Erro de Planejamento</string>
+    <string name="defina_a_inconformidade">Defina a Inconformidade</string>
+    <string name="comentarios">Comentários</string>
+    <string name="comentar">Comentar</string>
+    <string name="adicionar_imagem">Adicionar Imagem</string>
+    <string name="visualizar"><u>Visualizar Imagem</u></string>
+    <string name="relatar_inconformidade_em_producao">Relatar Inconformidade\nem Produção</string>
+    <string name="relatar_inconformidade_em_planejamento">Relatar Inconformidade\nem Planejamento</string>
+    <string name="etapa">Etapa de Produção</string>
+    <string name="etapa_da_inconformidade">Etapa da Inconformidade</string>
+    <string name="etapa_de_origem_da_inconformidade">Etapa de Origem da Inconformidade</string>
+    <string name="relatar_inconformidade">Relatar Inconformidade</string>
+    <string name="informacoes_de_peca">Informações de Peça</string>
+    <string name="checklist_de_incoformidades">CheckList de Incoformidades</string>
+    <string name="c_m">c (m)</string>
+    <string name="relatorio_de_erros">Relatório de Erros</string>
+    <string name="adicionar_filtros">Adicionar Filtros:</string>
+    <string name="relatorio">Relatório</string>
+    <string name="relatorio_de_inconformidades">Relatório de Inconformidades</string>
+    <string name="pesquisar_tag">Pesquisar Tag</string>
+    <string name="filtrar_tag">Filtrar Tag</string>
+    <string name="resultado">Resultado</string>
+    <string name="informacoes_de_processo">Informações de Processo</string>
+    <string name="solucionar_inconformidade">Solucionar Inconformidade</string>
+    <string name="armacao_com_forma">Armação com Forma</string>
+    <string name="concretagem">Concretagem</string>
+    <string name="liberacao_final">Liberação Final</string>
+    <string name="selecionar_galpao">Selecionar Galpão</string>
+    <string name="galpoes">Galpões</string>
+    <string name="carga">Carga</string>
+    <string name="transporte_carga">Transporte\nCarga</string>
+    <string name="galpao">Galpão</string>
+    <string name="selecionar_veiculo">Selecionar Veículo</string>
+    <string name="selecione_uma_montadora">Selecione uma Montadora</string>
+    <string name="transporte_ndescarga">Transporte\nDescarga</string>
+    <string name="veiculo">Veículo</string>
+    <string name="selecionar_uma_tag">Selecione uma Tag</string>
+
+
+</resources>

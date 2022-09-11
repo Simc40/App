@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".configuracaoUsuario.ConfiguracaoUsuario">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    style="@style/logo"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:id="@+id/goBack"
+                    style="@style/goBack"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/title"
+                android:layout_marginTop="10dp"
+                style="@style/horizontalMargin20dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/titleLogo"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:padding="10dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/user_cog" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/titleCard"
+                    style="@style/horizontalMargin20dp"
+                    app:cardBackgroundColor="#000000"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="15dp">
+                    <TextView
+                        style="@style/mQualidadeButtonText"
+                        android:text="@string/homeCard1"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/obraHeader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/moduloGerenciamentoAcessosNome"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/obraHeader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/nome"
+                        style="@style/WhiteCardText" />
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/obraHeader"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/nomeModeloHeader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/moduloGerenciamentoAcessosAccessLevel"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/nomeModeloHeader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/accessLevel"
+                        style="@style/WhiteCardText" />
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/nomeModeloHeader"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/userImage"
+                style="@style/horTopMargin20dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/todo" />
+
+            <View
+                style="@style/whiteLine"/>
+
+            <RelativeLayout
+                style="@style/horTopMargin20dp">
+                <androidx.cardview.widget.CardView
+                    style="@style/layoutMatchWrap"
+                    android:layout_height="10dp"
+                    app:cardBackgroundColor="#000000"
+                    android:layout_alignParentBottom="true">
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="#000000"
+                    app:cardCornerRadius="15dp">
+
+                    <TextView
+                        style="@style/mQualidadeButtonText"
+                        android:text="@string/moduloGerenciamentoAcessosTableTitle"
+                        android:textColor="#FFFFFF" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <TableLayout
+                android:id="@+id/tablenovaforma"
+                style="@style/twoColumnTable">
+
+                <TableRow
+                    style="@style/twoColumnTableRow">
+                    <LinearLayout
+                        style="@style/twoColumnTableLeftColumnLayout">
+                        <TextView
+                            style="@style/twoColumnTableLeftColumnTextView"
+                            android:text="@string/moduloGerenciamentoAcessosMatricula"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/twoColumnTableRightColumnLayout">
+                        <TextView
+                            android:id="@+id/matricula"
+                            style="@style/twoColumnTableRightColumnTextView"/>
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    style="@style/twoColumnTableRow">
+                    <LinearLayout
+                        style="@style/twoColumnTableLeftColumnLayout">
+                        <TextView
+                            style="@style/twoColumnTableLeftColumnTextView"
+                            android:text="@string/moduloGerenciamentoAcessosEmail"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/twoColumnTableRightColumnLayout">
+                        <TextView
+                            android:id="@+id/email"
+                            style="@style/twoColumnTableRightColumnTextView"/>
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    style="@style/twoColumnTableRow">
+                    <LinearLayout
+                        style="@style/twoColumnTableLeftColumnLayout">
+                        <TextView
+                            style="@style/twoColumnTableLeftColumnTextView"
+                            android:text="@string/moduloGerenciamentoAcessosEmpresa"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/twoColumnTableRightColumnLayout">
+                        <TextView
+                            android:id="@+id/empresa"
+                            style="@style/twoColumnTableRightColumnTextView"/>
+                    </LinearLayout>
+                </TableRow>
+                <TableRow
+                    style="@style/twoColumnTableRow">
+                    <LinearLayout
+                        style="@style/twoColumnTableLeftColumnLayout">
+                        <TextView
+                            style="@style/twoColumnTableLeftColumnTextView"
+                            android:text="@string/moduloGerenciamentoAcessosTelefone"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/twoColumnTableRightColumnLayout">
+                        <TextView
+                            android:id="@+id/telefone"
+                            style="@style/twoColumnTableRightColumnTextView"/>
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/permissions"
+                app:cardBackgroundColor="@color/black"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="@string/moduloGerenciamentoAcessosPermissoes"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/light_gray">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/creationLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/app"
+                            style="@style/blackTitle"
+                            android:gravity="center_vertical"
+                            android:text="@string/moduloGerenciamentoAcessosPermissoesApp"
+                            android:textSize="20sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5" />
+
+                        <ImageView
+                            android:id="@+id/appPermission"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/app"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/report"
+                            style="@style/blackTitle"
+                            android:gravity="start"
+                            android:textSize="20sp"
+                            android:text="@string/moduloGerenciamentoAcessosPermissoesReport"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5" />
+
+                        <ImageView
+                            android:id="@+id/reportPermission"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/report"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/submitForm"
+                app:cardBackgroundColor="@color/greenButton"
+                android:layout_marginBottom="20dp"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="@string/configuracaoUsuarioSubmit"/>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

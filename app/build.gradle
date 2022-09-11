@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+}
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.android.simc40"
+        minSdk 24
+        multiDexEnabled true
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+
+        'src/main/res/layout-authentication'
+        'src/main/res/layout-configuracao_leitor'
+        'src/main/res/layout-custom_xml'
+        'src/main/res/layout-menu'
+        'src/main/res/layout-modulo_gerenciamento'
+        'src/main/res/layout-modulo_qualidade'
+        'src/main/res/layout-modulo_qualidade-modulo_producao'
+        'src/main/res/layout-modulo_qualidade-modulo_transporte'
+        'src/main/res'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation platform('com.google.firebase:firebase-bom:30.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-database:20.0.5'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.1.0"
+    implementation project(':Rfid.AsciiProtocol-Library')
+    implementation project(':DeviceList')
+    //implementation 'com.jmedeisis:draglinearlayout:1.1.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+}

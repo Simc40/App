@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".supervisao_relatorio.pesquisar.FiltrarTag">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/logoHeader"
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    style="@style/logo"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:id="@+id/goBack"
+                    style="@style/goBack"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/blackTitle"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/filtrar_tag"/>
+
+            <RelativeLayout
+                android:id="@+id/filterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
+
+                <TextView
+                    android:id="@+id/textViewFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/adicionar_filtros"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerFiltros"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/textViewFilter" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/secondaryFilterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewSecondaryFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerFiltros2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/textViewSecondaryFilter" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_marginTop="20dp"
+                style="@style/LinearLayoutMatchWrapVert" />
+
+            <LinearLayout
+                android:id="@+id/listaLayout"
+                style="@style/LinearLayoutMatchWrapVert"/>
+
+            <TextView
+                android:id="@+id/title2"
+                style="@style/blackTitle"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/resultado"/>
+
+            <LinearLayout
+                android:id="@+id/header2"
+                android:layout_marginTop="20dp"
+                style="@style/LinearLayoutMatchWrapVert" />
+
+            <LinearLayout
+                android:id="@+id/listaLayout2"
+                style="@style/LinearLayoutMatchWrapVert"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".home.ModuloDeGerenciamento">
+
+    <ImageView
+        android:id="@+id/logo"
+        style="@style/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.044"
+        android:contentDescription="@string/todo" />
+
+    <TextView
+        android:id="@+id/goBack"
+        style="@style/goBack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/blackTitle"
+        android:text="@string/moduloGerenciamentoTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <TableLayout
+        style="@style/tableGridView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.0">
+        <TableRow
+            style="@style/tableRow">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card1"
+                style="@style/gridViewLeftCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/work_site" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/moduloGerenciamentoObrasTitle"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card2"
+                style="@style/gridViewRightCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/wrench" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/moduloGerenciamentoElementosTitle"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+
+        <TableRow
+            style="@style/tableRow">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card3"
+                style="@style/gridViewLeftCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/truck" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/moduloGerenciamentoVeiculosTitle"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card4"
+                style="@style/gridViewRightCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/user_cog" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/moduloGerenciamentoAcessosTitle"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+
+        <TableRow
+            style="@style/tableRow">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card5"
+                style="@style/gridViewLeftCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/register" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/moduloGerenciamentoCheckListTitle"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card6"
+                style="@style/gridViewRightCard">
+                <LinearLayout
+                    style="@style/cardInnerLayout">
+                    <ImageView
+                        style="@style/imageFromCard"
+                        android:src="@drawable/hangar" />
+                    <TextView
+                        style="@style/textFromCard"
+                        android:text="@string/moduloGerenciamentoGalpoesTitle"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </TableRow>
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

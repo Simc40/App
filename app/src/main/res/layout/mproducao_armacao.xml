@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    tools:context=".moduloQualidade.moduloProducao.Armacao">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    style="@style/logo"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:id="@+id/goBack"
+                    style="@style/goBack"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/title"
+                android:layout_marginTop="10dp"
+                style="@style/horizontalMargin20dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/titleLogo"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:padding="10dp"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/wrench" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/titleCard"
+                    android:layout_gravity="center_vertical"
+                    style="@style/horizontalMargin20dp"
+                    app:cardBackgroundColor="#000000"
+                    app:cardCornerRadius="15dp">
+                    <TextView
+                        style="@style/mQualidadeButtonText"
+                        android:text="@string/armacao"
+                        android:textColor="@color/white"
+                        android:textSize="25sp" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/obraheader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/obra"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/obraheader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/obra"
+                        style="@style/WhiteCardText"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/obraheader"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/pecaHeader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/nome_da_peca"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/pecaHeader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/peca"
+                        android:text="@string/leia_a_tag"
+                        style="@style/WhiteCardText"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/pecaHeader"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/tagReadingheader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/tag"/>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/tagReadingheader" />
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/tagReadingheader"
+                    style="@style/WhiteCard">
+                    <RelativeLayout
+                        android:layout_below="@+id/tagReadingheader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/tagItemHeader"
+                            style="@style/LinearLayoutMatchWrapVert"/>
+
+                        <ScrollView
+                            android:id="@+id/tagItemScrollView"
+                            style="@style/firebaseListScrollView"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tagItemHeader">
+
+                            <LinearLayout
+                                android:id="@+id/tagItem"
+                                style="@style/LinearLayoutMatchWrapVert" />
+                        </ScrollView>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                style="@style/horizontalMargin20dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/read"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/read_button_text"
+                    tools:ignore="ButtonStyle" />
+                <Button
+                    android:id="@+id/clear"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_button_text"
+                    tools:ignore="ButtonStyle" />
+            </LinearLayout>
+
+            <View
+                style="@style/whiteLine"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/projetoLocacao"
+                app:cardBackgroundColor="@color/black"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="@string/visualizar_projeto_de_locacao"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/projetoPeca"
+                app:cardBackgroundColor="@color/black"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="@string/visualizar_projeto_de_peca"/>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                style="@style/whiteLine"/>
+
+            <LinearLayout
+                android:id="@+id/checklistHeader"
+                style="@style/LinearLayoutMatchWrapVert"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintVertical_bias="0.066" />
+
+            <LinearLayout
+                android:id="@+id/checkList"
+                style="@style/LinearLayoutMatchWrapVert"/>
+
+            <View
+                style="@style/whiteLine"/>
+
+            <ImageView
+                style="@style/mQualidadeImages"
+                android:src="@drawable/details_project"
+                android:contentDescription="@string/todo" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/informacoesProjeto"
+                app:cardBackgroundColor="@color/black"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="@string/informacoes_de_projeto"/>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                style="@style/whiteLine"/>
+
+            <ImageView
+                style="@style/mQualidadeImages"
+                android:src="@drawable/warning"
+                android:contentDescription="@string/todo"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/reportarErro"
+                app:cardBackgroundColor="@color/yellow"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/black"
+                    android:text="@string/reportar_erro"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/submitForm"
+                app:cardBackgroundColor="@color/greenButton"
+                android:layout_marginBottom="20dp"
+                style="@style/mQualidadeButton">
+                <TextView
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="@string/finalizar2"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
