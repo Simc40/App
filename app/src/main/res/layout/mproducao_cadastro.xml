@@ -204,6 +204,68 @@
             <View
                 style="@style/whiteLine"/>
 
+            <LinearLayout
+                android:id="@+id/checklistHeader"
+                style="@style/LinearLayoutMatchWrapVert"
+                android:layout_marginTop="20dp"/>
+
+            <LinearLayout
+                android:id="@+id/checkList"
+                style="@style/LinearLayoutMatchWrapVert"/>
+
+            <View
+                style="@style/whiteLine"/>
+
+            <LinearLayout
+                android:id="@+id/errosLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <LinearLayout
+                    android:id="@+id/errosListHeader"
+                    style="@style/LinearLayoutMatchWrapVert"
+                    android:layout_marginTop="20dp"/>
+
+                <LinearLayout
+                    android:id="@+id/errosList"
+                    style="@style/LinearLayoutMatchWrapVert"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="150dp"
+                        android:text="Processo da Peça\nInterrompido por Erro?"
+                        android:textColor="@color/red"
+                        android:textSize="17sp" />
+
+                    <CheckBox
+                        android:id="@+id/pecaLocked"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:buttonTint="@color/white"
+                        android:scaleX="1.50"
+                        android:scaleY="1.50" />
+
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/whiteLine"/>
+
+            </LinearLayout>
+
+
             <ImageView
                 style="@style/mQualidadeImages"
                 android:src="@drawable/warning"
@@ -227,7 +289,7 @@
                 <TextView
                     style="@style/mQualidadeButtonText"
                     android:textColor="@color/white"
-                    android:text="@string/finalizar_projeto"/>
+                    android:text="@string/finalizar2"/>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 

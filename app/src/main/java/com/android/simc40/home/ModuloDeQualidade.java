@@ -12,7 +12,7 @@ import com.android.simc40.doubleClick.DoubleClick;
 import com.android.simc40.moduloQualidade.ModuloDeMontagem;
 import com.android.simc40.moduloQualidade.moduloProducao.ModuloDeProducao;
 import com.android.simc40.moduloQualidade.modulo_transporte.ModuloDeTransporte;
-import com.android.simc40.moduloQualidade.relatorio_erros.RelatorioDeErros;
+import com.android.simc40.moduloQualidade.relatorioErros.RelatorioDeErros;
 
 public class ModuloDeQualidade extends AppCompatActivity {
 

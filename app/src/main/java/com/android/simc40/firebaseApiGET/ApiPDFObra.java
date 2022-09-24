@@ -4,15 +4,13 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
-import com.android.simc40.classes.Obra;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.activityStatus.ActivityStatus;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
-import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.FirebaseDatabaseExceptionErrorList;
-import com.android.simc40.firebasePaths.FirebaseObraPaths;
 import com.android.simc40.firebasePaths.FirebasePdfPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,23 +19,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class ApiPDFObra implements DefaultErrorMessage, FirebasePdfPaths, FirebaseDatabaseExceptionErrorList {
 
+    public final static int ticks = 3;
     DatabaseReference reference;
     Activity activity;
     String contextException, database;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     ApiPDFObraCallback apiPDFObraCallback;
     HashMap<String, String> PDFmap = new HashMap<>();
 
-    public ApiPDFObra(Activity activity, String database, String contextException, LoadingPage loadingPage, ErrorDialog errorDialog, ApiPDFObraCallback apiPDFObraCallback){
+    public ApiPDFObra(Activity activity, String database, String contextException, LoadingDialog loadingDialog, ErrorDialog errorDialog, ApiPDFObraCallback apiPDFObraCallback){
         this.activity = activity;
         this.database = database;
         this.contextException = contextException;
-        this.loadingPage = loadingPage;
+        this.loadingDialog = loadingDialog;
         this.errorDialog = errorDialog;
         this.apiPDFObraCallback = apiPDFObraCallback;
 
@@ -48,12 +46,14 @@ public class ApiPDFObra implements DefaultErrorMessage, FirebasePdfPaths, Fireba
         try{
             if(!ErrorHandling.deviceIsConnected(activity)) throw new FirebaseNetworkException(defaultErrorMessage);
             reference = FirebaseDatabase.getInstance(database).getReference().child(firebasePdfPathFirstKey);
+            if(loadingDialog != null) loadingDialog.tick(); // 1
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(loadingDialog != null) loadingDialog.tick(); // 2
                     try{
                         if(dataSnapshot.getValue() == null) {
-                            if(activityIsRunning()) apiPDFObraCallback.onCallback(PDFmap);
+                            if(ActivityStatus.activityIsRunning(activity)) apiPDFObraCallback.onCallback(PDFmap);
                             return;
                         }
                         for(DataSnapshot datasnapshot1: dataSnapshot.getChildren()){
@@ -62,9 +62,10 @@ public class ApiPDFObra implements DefaultErrorMessage, FirebasePdfPaths, Fireba
                             String pdfUrl = datasnapshot1.child(activePDFUid).child(firebasePdfPathPdfUrlKey).getValue(String.class);
                             PDFmap.put(pdfUid, pdfUrl);
                         }
-                        if(activityIsRunning()) apiPDFObraCallback.onCallback(PDFmap);
+                        if(loadingDialog != null) loadingDialog.tick(); // 3
+                        if(ActivityStatus.activityIsRunning(activity)) apiPDFObraCallback.onCallback(PDFmap);
                     }catch (Exception e){
-                        if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                         else ErrorHandling.handleError(contextException, e);
                     }
                 }
@@ -72,17 +73,13 @@ public class ApiPDFObra implements DefaultErrorMessage, FirebasePdfPaths, Fireba
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Exception e = new Exception(databaseError.getMessage());
-                    if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                    if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                     else ErrorHandling.handleError(contextException, e);
                 }
             });
         }catch (Exception e){
-            if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
             else ErrorHandling.handleError(contextException, e);
         }
-    }
-
-    private boolean activityIsRunning(){
-        return !(activity.isFinishing() || activity.isDestroyed());
     }
 }

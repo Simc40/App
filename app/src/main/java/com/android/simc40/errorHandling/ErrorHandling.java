@@ -5,8 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.android.simc40.errorDialog.ErrorDialog;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.ErrorDialog;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuthException;
 
@@ -63,10 +63,18 @@ public class ErrorHandling  implements DefaultErrorMessage{
         Log.e(TAG, stack);
     }
 
-    public static void handleError(String contextException, Exception e, LoadingPage loadingPage, ErrorDialog errorDialog){
+    public static void handleError(LoadingDialog loadingDialog, ErrorDialog errorDialog, String title, String description){
+        Map<String, String> response = new HashMap<>();
+        response.put("errorCode", title);
+        response.put("message", description);
+        loadingDialog.endLoadingDialog();
+        errorDialog.showError(response);
+    }
+
+    public static void handleError(String contextException, Exception e, LoadingDialog loadingDialog, ErrorDialog errorDialog){
         Log.e(contextException, ErrorHandling.getError(e).get(defaultErrorMessage));
         ErrorHandling.printStackTrace(contextException, e.getStackTrace());
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.showError(ErrorHandling.getError(e));
     }
 

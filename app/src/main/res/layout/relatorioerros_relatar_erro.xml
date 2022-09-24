@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".moduloQualidade.relatorio_erros.RelatarErro">
+    tools:context=".moduloQualidade.relatorioErros.RelatarErro">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -39,33 +39,6 @@
                 android:gravity="center"
                 android:text="@string/relatar_inconformidade"/>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/infoProjetoHeader"
-                style="@style/layoutMatchWrap"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                app:cardBackgroundColor="@color/black">
-                <TextView
-                    style="@style/mQualidadeBlackHeaderText"
-                    android:text="@string/informacoes_de_projeto"/>
-            </androidx.cardview.widget.CardView>
-
-            <LinearLayout
-                style="@style/layoutMatchWrap"
-                android:background="@color/black"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:paddingBottom="2dp">
-                <LinearLayout
-                    android:id="@+id/layoutInfoProjeto"
-                    style="@style/LinearLayoutMatchWrapVert"
-                    android:background="@color/gray_background"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"/>
-            </LinearLayout>
-
             <RelativeLayout
                 android:layout_marginTop="20dp"
                 android:id="@+id/etapaLayout"
@@ -81,10 +54,9 @@
                 <androidx.cardview.widget.CardView
                     android:layout_below="@+id/etapaHeader"
                     style="@style/WhiteCard">
-                    <Spinner
+                    <TextView
                         android:id="@+id/etapa"
-                        style="@style/WhiteCardText"
-                        android:text="@string/pesquisar"/>
+                        style="@style/WhiteCardText"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     style="@style/mQualidadeWhiteViewUnderBlackHeader"
@@ -92,93 +64,80 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/inputCheckListLayout"
                 android:layout_marginTop="20dp"
+                android:id="@+id/obraLayout"
                 style="@style/horizontalMargin20dp">
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/erroHeader"
+                    android:id="@+id/obraHeader"
                     style="@style/layoutMatchWrap"
                     app:cardBackgroundColor="@color/black">
                     <TextView
                         style="@style/mQualidadeBlackHeaderText"
-                        android:text="@string/defina_a_inconformidade"/>
+                        android:text="@string/obra"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_below="@+id/erroHeader"
+                    android:layout_below="@+id/obraHeader"
                     style="@style/WhiteCard">
-                    <Spinner
-                        android:id="@+id/erro"
-                        style="@style/WhiteCardText"
-                        android:text="@string/pesquisar"/>
+                    <TextView
+                        android:id="@+id/obra"
+                        style="@style/WhiteCardText"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     style="@style/mQualidadeWhiteViewUnderBlackHeader"
-                    android:layout_below="@+id/erroHeader"/>
+                    android:layout_below="@+id/obraHeader"/>
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/listaDeCheckList"
-                style="@style/layoutMatchWrap"
-                android:background="@color/black"
-                android:layout_marginTop="10dp"
-                android:padding="2dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/mQualidadeBlackHeaderText"
-                    android:text="@string/checklist_de_incoformidades"/>
-                <LinearLayout
-                    android:id="@+id/layoutCheckList"
-                    style="@style/LinearLayoutMatchWrapVert"
-                    android:background="@color/gray_background"/>
-            </LinearLayout>
-
 
             <RelativeLayout
                 android:layout_marginTop="20dp"
+                android:id="@+id/elementoLayout"
                 style="@style/horizontalMargin20dp">
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/comentarioHeader"
+                    android:id="@+id/elementoHeader"
                     style="@style/layoutMatchWrap"
                     app:cardBackgroundColor="@color/black">
                     <TextView
                         style="@style/mQualidadeBlackHeaderText"
-                        android:text="@string/comentarios"/>
+                        android:text="@string/elemento_da_peca"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_below="@+id/comentarioHeader"
+                    android:layout_below="@+id/elementoHeader"
                     style="@style/WhiteCard">
-                    <EditText
-                        android:id="@+id/comentarios"
-                        android:background="@null"
-                        style="@style/WhiteCardText"
-                        android:hint="@string/comentar"
-                        tools:ignore="Autofill"
-                        android:inputType="textMultiLine"
-                        android:importantForAutofill="no" />
+                    <TextView
+                        android:id="@+id/elemento"
+                        style="@style/WhiteCardText"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     style="@style/mQualidadeWhiteViewUnderBlackHeader"
-                    android:layout_below="@+id/comentarioHeader"/>
+                    android:layout_below="@+id/elementoHeader"/>
             </RelativeLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/adicionarImagem"
-                app:cardBackgroundColor="@color/blueButton"
+                android:id="@+id/informacoesProjeto"
+                app:cardBackgroundColor="@color/black"
                 style="@style/mQualidadeButton">
                 <TextView
                     style="@style/mQualidadeButtonText"
                     android:textColor="@color/white"
-                    android:text="@string/adicionar_imagem"/>
+                    android:text="@string/informacoes_de_projeto"/>
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/visualizarImagem"
-                style="@style/blackTitle"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center"
-                android:text="@string/visualizar"/>
+            <View style="@style/whiteLine" android:layout_width="match_parent" android:layout_marginStart="0dp" android:layout_marginEnd="0dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp">
+                <LinearLayout
+                    android:id="@+id/tags"
+                    style="@style/LinearLayoutMatchWrapVert"
+                    android:layout_margin="1dp"/>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/submitForm"

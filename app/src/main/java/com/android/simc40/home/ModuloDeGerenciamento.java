@@ -1,21 +1,20 @@
 package com.android.simc40.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.android.simc40.R;
 import com.android.simc40.doubleClick.DoubleClick;
 import com.android.simc40.moduloGerenciamento.GerenciamentoAcessos;
-import com.android.simc40.moduloGerenciamento.GerenciamentoVeiculos;
-import com.android.simc40.moduloGerenciamento.GerenciamentoObras;
-import com.android.simc40.moduloGerenciamento.GerenciamentoElementos;
 import com.android.simc40.moduloGerenciamento.GerenciamentoChecklist;
+import com.android.simc40.moduloGerenciamento.GerenciamentoElementos;
+import com.android.simc40.moduloGerenciamento.GerenciamentoObras;
+import com.android.simc40.moduloGerenciamento.GerenciamentoVeiculos;
 import com.android.simc40.selecaoListas.SelecaoListaGalpoes;
-import com.android.simc40.selecaoListas.SelecaoListaUsuarios;
 
 public class ModuloDeGerenciamento extends AppCompatActivity {
 

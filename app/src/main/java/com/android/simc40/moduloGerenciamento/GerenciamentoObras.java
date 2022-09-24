@@ -14,11 +14,11 @@ import android.widget.TextView;
 import com.android.simc40.R;
 import com.android.simc40.classes.Obra;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.LayoutException;
 import com.android.simc40.errorHandling.LayoutExceptionErrorList;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.selecaoListas.SelecaoListaObras;
 
 public class GerenciamentoObras extends AppCompatActivity implements LayoutExceptionErrorList {
@@ -26,9 +26,8 @@ public class GerenciamentoObras extends AppCompatActivity implements LayoutExcep
     CardView visualizarPDF, reportarInformacaoIncorreta, goBackEnd;
     Obra obra;
     TextView goBack, textViewNomeObra, textViewResponsavel, textViewTipoConstrucao, textViewCep, textViewCidade, textViewBairro, textViewEndereco, textViewUf, textViewPecasPlanejadas, textViewPrevisaoInicio, textViewPrevisaoFim, textViewCreation, textViewCreatedBy, textViewLastModifiedOn, textViewLastModifiedBy;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "GerenciamentoObras";
     DoubleClick doubleClick = new DoubleClick();
 
     @Override
@@ -48,7 +47,7 @@ public class GerenciamentoObras extends AppCompatActivity implements LayoutExcep
         goBackEnd.setOnClickListener(goBackListener);
 
         errorDialog = new ErrorDialog(GerenciamentoObras.this);
-        loadingPage = new LoadingPage(GerenciamentoObras.this, errorDialog);
+        loadingDialog = new LoadingDialog(GerenciamentoObras.this, errorDialog);
 
         textViewNomeObra = findViewById(R.id.nomeObra);
         textViewResponsavel = findViewById(R.id.responsavel);
@@ -81,7 +80,7 @@ public class GerenciamentoObras extends AppCompatActivity implements LayoutExcep
             fill_fields(obra);
             System.out.println(obra);
             } catch (LayoutException e) {
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         }else{
             finish();
@@ -106,7 +105,7 @@ public class GerenciamentoObras extends AppCompatActivity implements LayoutExcep
             if(textViewLastModifiedOn != null && obra.getLastModifiedOn() != null) textViewLastModifiedOn.setText(obra.getLastModifiedOn());
             if(textViewLastModifiedBy != null && obra.getLastModifiedBy() != null) textViewLastModifiedBy.setText(obra.getLastModifiedBy());
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 }

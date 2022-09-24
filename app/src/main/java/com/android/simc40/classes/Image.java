@@ -7,19 +7,16 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.ImageException;
 import com.android.simc40.errorHandling.ImageExceptionErrorList;
-import com.android.simc40.errorHandling.PermissionException;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,31 +34,40 @@ public class Image implements Serializable, ImageExceptionErrorList {
     String extension;
     transient Uri uri;
 
+    public Image(Activity activity, File imageFile){
+        this.imageFile = imageFile;
+        this.src = camera;
+        this.path = imageFile.getPath();
+        this.extension = path.substring(path.lastIndexOf("."));
+        this.imageName = "image" + extension;
+    }
+
     public Image(Activity activity, Intent data, String contextException, ErrorDialog errorDialog) throws Exception {
         this.activity = activity;
         this.data = data;
         this.uri = data.getData();
 
-        if(uri == null){
-            //Imagem comes from camera
-            try {
-                this.bitmap = (Bitmap) data.getExtras().get("data");
-                File pictureFile = getOutputMediaFile();
-                if(pictureFile == null) throw new PermissionException();
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
-                fos.close();
-                activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-                this.imageFile = pictureFile;
-                this.src = camera;
-                this.path = pictureFile.getPath();
-                this.extension = path.substring(path.lastIndexOf("."));
-                this.imageName = "image" + extension;
-            } catch (Exception e) {
-                ErrorHandling.handleError(contextException, e, errorDialog);
-            }
-            return;
-        }
+//        if(uri == null){
+//            //Imagem comes from camera
+//            try {
+//                this.bitmap = (Bitmap) data.getExtras().get("data");
+//                File pictureFile = getOutputMediaFile();
+//                if(pictureFile == null) throw new PermissionException();
+//                FileOutputStream fos = new FileOutputStream(pictureFile);
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                fos.close();
+//                MediaStore.Images.Media.insertImage(activity.getContentResolver(), pictureFile.getAbsolutePath(), pictureFile.getName(), null);
+//                MediaScannerConnection.scanFile(activity, new String[]{pictureFile.getPath()}, null, null);
+//                this.imageFile = pictureFile;
+//                this.src = camera;
+//                this.path = pictureFile.getPath();
+//                this.extension = path.substring(path.lastIndexOf("."));
+//                this.imageName = "image" + extension;
+//            } catch (Exception e) {
+//                ErrorHandling.handleError(contextException, e, errorDialog);
+//            }
+//            return;
+//        }
         //Image comes from Gallery
         try{
             this.src = gallery;
@@ -84,8 +90,7 @@ public class Image implements Serializable, ImageExceptionErrorList {
 //                + "/Android/data/"
 //                + activity.getApplicationContext().getPackageName()
 //                + "/Files");
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"  + "SIMC40");
-
+        File mediaStorageDir = new File(activity.getExternalFilesDir(null).getAbsolutePath(), "/SIMC40");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -103,6 +108,7 @@ public class Image implements Serializable, ImageExceptionErrorList {
         return mediaFile;
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     public String getRealPathFromURI(Uri contentURI) {
         if(Build.VERSION.SDK_INT <=23) {
             String result;

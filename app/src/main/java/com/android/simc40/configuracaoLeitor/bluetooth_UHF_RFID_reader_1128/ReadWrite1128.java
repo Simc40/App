@@ -32,6 +32,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
@@ -56,8 +58,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import static com.uk.tsl.rfid.DeviceListActivity.EXTRA_DEVICE_ACTION;
 import static com.uk.tsl.rfid.DeviceListActivity.EXTRA_DEVICE_INDEX;
 
-public class ReadWrite1128 extends AppCompatActivity
-{
+public class ReadWrite1128 extends AppCompatActivity {
 	// Debug control
 	private static final boolean D = BuildConfig.DEBUG;
 
@@ -69,7 +70,7 @@ public class ReadWrite1128 extends AppCompatActivity
 	private int mPowerLevel = AntennaParameters.MaximumCarrierPower;
 
 	// Custom adapter for the Ascii command enumerated parameter values to display the description rather than the toString() value
-	public class ParameterEnumerationArrayAdapter<T extends EnumerationBase > extends ArrayAdapter<T> {
+	public static class ParameterEnumerationArrayAdapter<T extends EnumerationBase > extends ArrayAdapter<T> {
 		private final T[] mValues;
 
 		public ParameterEnumerationArrayAdapter(Context context, int textViewResourceId, T[] objects) {
@@ -85,14 +86,14 @@ public class ReadWrite1128 extends AppCompatActivity
 		}
 
 		@Override
-		public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
 			TextView view = (TextView)super.getDropDownView(position, convertView, parent);
 			view.setText(mValues[position].getDescription());
 			return view;
 		}
 	}
 	
-	private Databank[] mDatabanks = new Databank[] {
+	private final Databank[] mDatabanks = new Databank[] {
 		Databank.ELECTRONIC_PRODUCT_CODE,
 		Databank.TRANSPONDER_IDENTIFIER,
 		Databank.RESERVED,
@@ -211,7 +212,14 @@ public class ReadWrite1128 extends AppCompatActivity
         commander.addSynchronousResponder();
 
         // Configure the ReaderManager when necessary
-        ReaderManager.create(getApplicationContext());
+        try{
+            ReaderManager.create(getApplicationContext());
+            return;
+        } catch (Exception e){
+            System.out.println("GOT EXCEPTION");
+            System.out.println(e.getMessage());
+        }
+
 
         // Add observers for changes
         ReaderManager.sharedInstance().getReaderList().readerAddedEvent().addObserver(mAddedObserver);
@@ -859,32 +867,28 @@ public class ReadWrite1128 extends AppCompatActivity
     //
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case DeviceListActivity.SELECT_DEVICE_REQUEST:
                 // When DeviceListActivity returns with a device to connect
-                if (resultCode == Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     int readerIndex = data.getExtras().getInt(EXTRA_DEVICE_INDEX);
                     Reader chosenReader = ReaderManager.sharedInstance().getReaderList().list().get(readerIndex);
 
                     int action = data.getExtras().getInt(EXTRA_DEVICE_ACTION);
 
                     // If already connected to a different reader then disconnect it
-                    if( mReader != null )
-                    {
-                        if( action == DeviceListActivity.DEVICE_CHANGE || action == DeviceListActivity.DEVICE_DISCONNECT)
-                        {
+                    if (mReader != null) {
+                        if (action == DeviceListActivity.DEVICE_CHANGE || action == DeviceListActivity.DEVICE_DISCONNECT) {
                             mReader.disconnect();
-                            if(action == DeviceListActivity.DEVICE_DISCONNECT)
-                            {
+                            if (action == DeviceListActivity.DEVICE_DISCONNECT) {
                                 mReader = null;
                             }
                         }
                     }
 
                     // Use the Reader found
-                    if( action == DeviceListActivity.DEVICE_CHANGE || action == DeviceListActivity.DEVICE_CONNECT)
-                    {
+                    if (action == DeviceListActivity.DEVICE_CHANGE || action == DeviceListActivity.DEVICE_CONNECT) {
                         mReader = chosenReader;
                         getCommander().setReader(mReader);
                     }

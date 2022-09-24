@@ -12,12 +12,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.android.simc40.Images.DisplayLoadedImage;
 import com.android.simc40.Images.DownloadImage;
-import com.android.simc40.Images.ImageUploadSuccessCallback;
+import com.android.simc40.Images.ImageActivity;
+import com.android.simc40.firebaseApiPOST.ImageUploadSuccessCallback;
 import com.android.simc40.Images.IntentSelector;
 import com.android.simc40.Images.PermissionList;
-import com.android.simc40.Images.UploadPicture;
+import com.android.simc40.firebaseApiPOST.UploadProfilePicture;
 import com.android.simc40.R;
 import com.android.simc40.accessLevel.AccessLevel;
 import com.android.simc40.authentication.Login;
@@ -25,17 +25,16 @@ import com.android.simc40.authentication.sessionManagement;
 import com.android.simc40.classes.Image;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.LayoutException;
 import com.android.simc40.errorHandling.LayoutExceptionErrorList;
-import com.android.simc40.errorHandling.PermissionException;
 import com.android.simc40.errorHandling.PermissionExceptionList;
 import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
-import com.android.simc40.successDialog.SuccessDialog;
+import com.android.simc40.dialogs.SuccessDialog;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ConfiguracaoUsuario extends AppCompatActivity implements LayoutExceptionErrorList, SharedPrefsExceptionErrorList, PermissionExceptionList, AccessLevel, PermissionList {
@@ -46,10 +45,9 @@ public class ConfiguracaoUsuario extends AppCompatActivity implements LayoutExce
     TextView goBack;
     TextView textViewNome, textViewEmail, textViewEmpresa, textViewAccessLevel, textViewMatricula, textViewTelefone;
     ImageView imageViewAppPermission, imageViewReportPermission, imageViewImgUrl;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     SuccessDialog successDialog;
-    String contextException = "ConfiguracaoUsuario";
     DoubleClick doubleClick = new DoubleClick();
     IntentSelector intentSelector;
 
@@ -61,7 +59,7 @@ public class ConfiguracaoUsuario extends AppCompatActivity implements LayoutExce
         intentSelector = new IntentSelector(ConfiguracaoUsuario.this);
         successDialog = new SuccessDialog(ConfiguracaoUsuario.this);
         errorDialog = new ErrorDialog(ConfiguracaoUsuario.this);
-        loadingPage = new LoadingPage(ConfiguracaoUsuario.this, errorDialog);
+        loadingDialog = new LoadingDialog(ConfiguracaoUsuario.this, errorDialog);
 
         goBack = findViewById(R.id.goBack);
         submit = findViewById(R.id.submitForm);
@@ -86,91 +84,55 @@ public class ConfiguracaoUsuario extends AppCompatActivity implements LayoutExce
 
         submit.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-            if(PermissionsDenied()) return;
-            loadPicture.launch(IntentSelector.getIntent());
-            System.out.println(image);
+            takePicture.launch(new Intent(ConfiguracaoUsuario.this, ImageActivity.class));
         });
 
         try{
-            loadingPage.showLoadingPage();
-            user = sharedPrefsDatabase.getUser(ConfiguracaoUsuario.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(ConfiguracaoUsuario.this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
-
             fill_fields(user);
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
 
     }
 
-    boolean PermissionsDenied(){
-        intentSelector.checkPermissions();
-        if(intentSelector.cameraPermissionDenied || intentSelector.galleryPermissionDenied){
-            requestPermissionLauncher.launch(permissionList);
-            return true;
-        }
-        return false;
-    }
-
-    ActivityResultLauncher<String[]> requestPermissionLauncher =
-    registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
-        try{
-            for(String permission : permissionList){
-                if(permissions.get(permission) == null) throw new PermissionException();
-                if (!permissions.get(permission) && permission.equals(cameraPermission)) throw new PermissionException(EXCEPTION_CAMERA_PERMISSION_DENIED);
-                else if (!permissions.get(permission) && permission.equals(galleryPermission)) throw new PermissionException(EXCEPTION_GALLERY_PERMISSION_DENIED);
-                else if(!permissions.get(permission)) throw new PermissionException();
-            }
-            successDialog.showPermissionSuccess();
-        }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
-        }
-    });
-
-
-    ActivityResultLauncher<Intent> loadPicture = registerForActivityResult(
+    ActivityResultLauncher<Intent> takePicture = registerForActivityResult(
     new ActivityResultContracts.StartActivityForResult(),
     result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
             try {
                 Intent data = result.getData();
                 if (data == null) throw new LayoutException(EXCEPTION_SERIALIZABLE_NULL);
-                image = new Image(ConfiguracaoUsuario.this, data, contextException, errorDialog);
-                Intent intent = new Intent(ConfiguracaoUsuario.this, DisplayLoadedImage.class);
-                intent.putExtra("dependency", image);
-                this.uploadPictureOnResult.launch(intent);
+                image = (Image) data.getSerializableExtra("result");
+                System.out.println(image);
+                uploadImage(image);
             } catch (Exception e) {
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         }
     });
 
-    ActivityResultLauncher<Intent> uploadPictureOnResult = registerForActivityResult(
-    new ActivityResultContracts.StartActivityForResult(),
-    result -> {
-        if (result.getResultCode() == Activity.RESULT_OK) {
-            try{
-                User user = sharedPrefsDatabase.getUser(ConfiguracaoUsuario.this, MODE_PRIVATE, loadingPage, errorDialog);
-                if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
-                loadingPage.setTimeLimitMillisseconds(20000);
-                loadingPage.showLoadingPage();
-                ImageUploadSuccessCallback imageUploadSuccessCallback = response -> {
-                    FirebaseAuth.getInstance().signOut();
-                    sessionManagement session = new sessionManagement(ConfiguracaoUsuario.this);
-                    session.removeSession();
-                    Intent i = new Intent(ConfiguracaoUsuario.this, Login.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                };
-                UploadPicture.uploadProfilePictureOnFirebaseStorage(user, image, contextException, successDialog, loadingPage, errorDialog, imageUploadSuccessCallback);
+    private void uploadImage(Image image){
+        try {
+            User user = sharedPrefsDatabase.getUser(ConfiguracaoUsuario.this, MODE_PRIVATE, loadingDialog, errorDialog);
+            if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
+            loadingDialog.showLoadingDialog(3);
+            ImageUploadSuccessCallback imageUploadSuccessCallback = response -> {
+                FirebaseAuth.getInstance().signOut();
+                sessionManagement session = new sessionManagement(ConfiguracaoUsuario.this);
+                session.removeSession();
+                Intent i = new Intent(ConfiguracaoUsuario.this, Login.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            };
+            UploadProfilePicture.uploadProfilePictureOnFirebaseStorage(user, image, this.getClass().getSimpleName(), successDialog, loadingDialog, errorDialog, imageUploadSuccessCallback);
 
-            }catch (Exception e){
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
-            }
-
+        } catch (Exception e) {
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
-    });
+    }
 
     void fill_fields(User user) {
         try{
@@ -191,16 +153,16 @@ public class ConfiguracaoUsuario extends AppCompatActivity implements LayoutExce
                 else imageViewReportPermission.setImageResource(R.drawable.uncheck);
 
             if(imageViewImgUrl != null) DownloadImage.fromUrlLayoutGone(imageViewImgUrl, user.getImgUrl());
-            loadingPage.endLoadingPage();
+            loadingDialog.endLoadingDialog();
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
         successDialog.endSuccessDialog();
     }
@@ -208,7 +170,7 @@ public class ConfiguracaoUsuario extends AppCompatActivity implements LayoutExce
     @Override
     protected void onStop() {
         super.onStop();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
         successDialog.endSuccessDialog();
     }

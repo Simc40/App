@@ -35,7 +35,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/email"
         android:layout_width="370dp"
-        android:layout_height="80dp"
+        android:layout_height="85dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,7 @@
             <TextView
                 android:id="@+id/emailText"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/loginEmail"
@@ -76,7 +76,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/password"
         android:layout_width="370dp"
-        android:layout_height="80dp"
+        android:layout_height="85dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,6 +88,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/passwordBox"
                 android:layout_width="305dp"
@@ -96,12 +97,13 @@
                 <TextView
                     android:id="@+id/passwordText"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="25dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/loginPassword"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+
                 <EditText
                     android:id="@+id/passwordForm"
                     android:layout_width="match_parent"
@@ -143,10 +145,10 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/register"
+        android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/loginRegister"
+        android:text="@string/loginForgotPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

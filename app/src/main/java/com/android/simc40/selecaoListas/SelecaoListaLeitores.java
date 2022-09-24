@@ -3,6 +3,7 @@ package com.android.simc40.selecaoListas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import android.widget.TextView;
 import com.android.simc40.R;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.ReaderException;
 import com.android.simc40.errorHandling.ReaderExceptionErrorList;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 
 public class SelecaoListaLeitores extends AppCompatActivity implements com.android.simc40.configuracaoLeitor.ListaLeitores, ReaderExceptionErrorList {
 
@@ -26,9 +27,8 @@ public class SelecaoListaLeitores extends AppCompatActivity implements com.andro
     TextView goBack;
     String database;
     DoubleClick doubleClick = new DoubleClick();
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "SelecaoListaLeitores";
     User user;
 
     @Override
@@ -36,9 +36,8 @@ public class SelecaoListaLeitores extends AppCompatActivity implements com.andro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selecao_lista_leitores);
 
-        errorDialog = new ErrorDialog(SelecaoListaLeitores.this);
-        loadingPage = new LoadingPage(SelecaoListaLeitores.this, errorDialog);
-        loadingPage.showLoadingPage();
+        errorDialog = new ErrorDialog(this);
+        loadingDialog = new LoadingDialog(this, errorDialog);
 
         header = findViewById(R.id.header);
         listaLayout = findViewById(R.id.listaLayout);
@@ -71,16 +70,16 @@ public class SelecaoListaLeitores extends AppCompatActivity implements com.andro
                     Intent intent = new Intent();
                     String selectedReader = (String) objItem2.getTag();
                     if(selectedReader == null || (!selectedReader.equals(UHF_RFID_Reader_1128) && !selectedReader.equals(QR_CODE))) throw new ReaderException(EXCEPTION_READER_NOT_CONFIGURED);
+                    if(selectedReader.equals(UHF_RFID_Reader_1128) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) throw new ReaderException(EXCEPTION_API_VERSION_NOT_CONFIGURED);
                     intent.putExtra("result", selectedReader);
                     setResult (SelecaoListaLeitores.RESULT_OK, intent);
                     finish();
                 }catch (Exception e){
-                    ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                    ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
                 }
             });
             listaLayout.addView(obj);
         }
-        loadingPage.endLoadingPage();
     }
 
     @Override
@@ -95,7 +94,7 @@ public class SelecaoListaLeitores extends AppCompatActivity implements com.andro
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

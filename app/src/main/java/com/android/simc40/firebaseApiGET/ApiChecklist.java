@@ -4,15 +4,16 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
+import com.android.simc40.activityStatus.ActivityStatus;
 import com.android.simc40.checklist.Etapas;
 import com.android.simc40.classes.Checklist;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.FirebaseDatabaseExceptionErrorList;
 import com.android.simc40.firebasePaths.FirebaseChecklistPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,20 +27,22 @@ import java.util.Map;
 
 public class ApiChecklist implements DefaultErrorMessage, FirebaseChecklistPaths, FirebaseDatabaseExceptionErrorList, Etapas {
 
+    public final static int ticks = ApiNameUsers.ticks + 3;
+    public final static int ticksWithApiNameUsers = 3;
     DatabaseReference reference;
     Activity activity;
     String contextException, database;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     ApiChecklistCallback apiChecklistCallback;
     HashMap<String, String> usersMap;
     Hashtable<String, Checklist> checklistMap = new Hashtable<>();
 
-    public ApiChecklist(Activity activity, String database, String contextException, LoadingPage loadingPage, ErrorDialog errorDialog, ApiChecklistCallback apiChecklistCallback, HashMap<String, String> usersMap){
+    public ApiChecklist(Activity activity, String database, String contextException, LoadingDialog loadingDialog, ErrorDialog errorDialog, ApiChecklistCallback apiChecklistCallback, HashMap<String, String> usersMap){
         this.activity = activity;
         this.database = database;
         this.contextException = contextException;
-        this.loadingPage = loadingPage;
+        this.loadingDialog = loadingDialog;
         this.errorDialog = errorDialog;
         this.apiChecklistCallback = apiChecklistCallback;
 
@@ -48,7 +51,7 @@ public class ApiChecklist implements DefaultErrorMessage, FirebaseChecklistPaths
                 this.usersMap = response;
                 getChecklist();
             };
-            new ApiNameUsers(activity, contextException, loadingPage, errorDialog, apiNameUsersCallback);
+            new ApiNameUsers(activity, contextException, loadingDialog, errorDialog, apiNameUsersCallback);
         }else{
             this.usersMap = usersMap;
             getChecklist();
@@ -59,9 +62,11 @@ public class ApiChecklist implements DefaultErrorMessage, FirebaseChecklistPaths
         try{
             if(!ErrorHandling.deviceIsConnected(activity)) throw new FirebaseNetworkException(defaultErrorMessage);
             reference = FirebaseDatabase.getInstance(database).getReference().child(firebaseChecklistPathFirstKey);
+            if(loadingDialog != null) loadingDialog.tick(); // 1
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(loadingDialog != null) loadingDialog.tick(); // 2
                     try{
                         if(dataSnapshot.getValue() == null) throw new FirebaseDatabaseException();
                         Hashtable<String, String> uidCheckListAtual = new Hashtable<>();
@@ -78,9 +83,10 @@ public class ApiChecklist implements DefaultErrorMessage, FirebaseChecklistPaths
                             Checklist item = new Checklist(uidEtapa, etapa, checklist, creation, createdBy);
                             checklistMap.put(etapa, item);
                         }
-                        if(activityIsRunning()) apiChecklistCallback.onCallback(checklistMap);
+                        if(loadingDialog != null) loadingDialog.tick(); // 3
+                        if(ActivityStatus.activityIsRunning(activity)) apiChecklistCallback.onCallback(checklistMap);
                     }catch (Exception e){
-                        if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                         else ErrorHandling.handleError(contextException, e);
                     }
                 }
@@ -88,17 +94,13 @@ public class ApiChecklist implements DefaultErrorMessage, FirebaseChecklistPaths
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Exception e = new Exception(databaseError.getMessage());
-                    if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                    if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                     else ErrorHandling.handleError(contextException, e);
                 }
             });
         }catch (Exception e){
-            if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
             else ErrorHandling.handleError(contextException, e);
         }
-    }
-
-    private boolean activityIsRunning(){
-        return !(activity.isFinishing() || activity.isDestroyed());
     }
 }

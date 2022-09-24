@@ -1,9 +1,11 @@
 package com.android.simc40.home;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.view.View;
+import android.os.IBinder;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,15 +18,18 @@ import androidx.cardview.widget.CardView;
 import com.android.simc40.Images.DownloadImage;
 import com.android.simc40.R;
 import com.android.simc40.accessLevel.AccessLevel;
+import com.android.simc40.activityStatus.ActivityStatus;
 import com.android.simc40.authentication.Login;
-import com.android.simc40.classes.User;
 import com.android.simc40.authentication.sessionManagement;
+import com.android.simc40.classes.User;
 import com.android.simc40.configuracaoLeitor.ListaLeitores;
+import com.android.simc40.configuracaoLeitor.ServiceRfidReader;
+import com.android.simc40.configuracaoLeitor.ServiceRfidReader.LocalBinder;
 import com.android.simc40.configuracaoLeitor.bluetooth_UHF_RFID_reader_1128.ReadWrite1128;
-import com.android.simc40.configuracaoLeitor.qrCode.QrCodeModel;
+import com.android.simc40.configuracaoLeitor.qrCode.ReadWriteQrCode;
 import com.android.simc40.configuracaoUsuario.ConfiguracaoUsuario;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
@@ -32,7 +37,7 @@ import com.android.simc40.errorHandling.ReaderException;
 import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
 import com.android.simc40.firebasePaths.FirebaseUserPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.selecaoListas.SelecaoListaLeitores;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
 import com.google.firebase.FirebaseNetworkException;
@@ -44,44 +49,58 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class Home extends AppCompatActivity implements SharedPrefsExceptionErrorList, DefaultErrorMessage, FirebaseUserPaths, AccessLevel, ListaLeitores {
 
     DoubleClick doubleClick = new DoubleClick();
     TextView userName, logout, clientName, changeReader;
     CardView card1, card2, card3, card4, card5, card6;
     ImageView profileImage;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     User user;
-    String contextException = "Home";
     DatabaseReference reference;
+    ServiceRfidReader serviceRfidReader;
+    boolean mBounded = false;
+
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            System.out.println("Service is connected");
+            mBounded = true;
+            LocalBinder mLocalBinder = (LocalBinder) service;
+            serviceRfidReader = mLocalBinder.getService();
+            serviceRfidReader.configureErrorHandling(loadingDialog, errorDialog);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            System.out.println("Service Disconnected");
+            mBounded = false;
+            serviceRfidReader = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        errorDialog = new ErrorDialog(Home.this);
-        loadingPage = new LoadingPage(Home.this, errorDialog);
+        startService(new Intent(this, ServiceRfidReader.class));
+
+        Intent sIntent = new Intent(this, ServiceRfidReader.class);
+        bindService(sIntent, serviceConnection, 0);
+
+        errorDialog = new ErrorDialog(this);
+        loadingDialog = new LoadingDialog(this, errorDialog);
 
         errorDialog.getButton().setOnClickListener(null);
         errorDialog.getButton().setOnClickListener(buttonView1 -> {
             errorDialog.endErrorDialog();
             logOut();
         });
-
-//        ApiChecklistCallback apiChecklistCallback = System.out::println;
-//        new ApiChecklist(Home.this, "https://simc-iot-ufba.firebaseio.com/" , contextException, loadingPage, errorDialog, apiChecklistCallback, null);
-
-//        ApiCallback apiCallback = new ApiCallback() {
-//            @Override
-//            public void onCallback(DataSnapshot response) {
-//                System.out.println(response);
-//            }
-//        };
-//
-//        ApiTeste api = new ApiTeste(Home.this, contextException, errorDialog, apiCallback);
-
 
         userName = findViewById(R.id.userName);
         clientName = findViewById(R.id.clientName);
@@ -96,84 +115,82 @@ public class Home extends AppCompatActivity implements SharedPrefsExceptionError
         card6 = findViewById(R.id.card6);
 
         try{
-            user = sharedPrefsDatabase.getUser(Home.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
             userName.setText(user.getNome());
             clientName.setText(user.getCliente().getNome());
             DownloadImage.fromUrl(profileImage, user.getImgUrl());
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
 
-        changeReader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Home.this, SelecaoListaLeitores.class);
-                selectLeitorFromList.launch(intent);
-            }
+        changeReader.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SelecaoListaLeitores.class);
+            selectLeitorFromList.launch(intent);
         });
 
         card1.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-            startActivity(new Intent(Home.this, ConfiguracaoUsuario.class));
+            startActivity(new Intent(this, ConfiguracaoUsuario.class));
         });
         card2.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
             try{
-                System.out.println("CARD2");
-                String selectedReader = sharedPrefsDatabase.getReader(Home.this, MODE_PRIVATE, loadingPage, errorDialog);
-                System.out.println(selectedReader);
+                String selectedReader = serviceRfidReader.getReader();
                 if(selectedReader == null){
-                    Intent intent = new Intent(Home.this, SelecaoListaLeitores.class);
+                    Intent intent = new Intent(this, SelecaoListaLeitores.class);
                     selectLeitorFromList.launch(intent);
                 }
-                else if(selectedReader.equals(UHF_RFID_Reader_1128)) startActivity(new Intent(Home.this, ReadWrite1128.class));
-                else if(selectedReader.equals(QR_CODE)) startActivity(new Intent(Home.this, QrCodeModel.class));
+                else if(selectedReader.equals(UHF_RFID_Reader_1128)) startActivity(new Intent(this, ReadWrite1128.class));
+                else if(selectedReader.equals(QR_CODE)) startActivity(new Intent(this, ReadWriteQrCode.class));
             } catch (Exception e){
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         });
+
         card3.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-            startActivity(new Intent(Home.this, ModuloDeGerenciamento.class));
+            startActivity(new Intent(this, ModuloDeGerenciamento.class));
         });
         card4.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-            startActivity(new Intent(Home.this, ModuloDeLogistica.class));
+            startActivity(new Intent(this, ModuloDeLogistica.class));
         });
         card5.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-            startActivity(new Intent(Home.this, ModuloDeQualidade.class));
+            startActivity(new Intent(this, ModuloDeQualidade.class));
         });
         card6.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-            if (loadingPage.isVisible) {
-                return;
-            }
-            loadingPage.showLoadingPage();
+            if (loadingDialog.isVisible) return;
+            loadingDialog.showLoadingDialog(3);
             try{
-                if(!ErrorHandling.deviceIsConnected(Home.this)) throw new FirebaseNetworkException(defaultErrorMessage);
+                loadingDialog.tick(); // 1
+                if(!ErrorHandling.deviceIsConnected(this)) throw new FirebaseNetworkException(defaultErrorMessage);
                 reference = FirebaseDatabase.getInstance().getReference().child(firebaseUserPathFirstKey).child(user.getUid());
                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        loadingDialog.tick(); // 2
                         try{
                             if(dataSnapshot.getValue() == null) throw new FirebaseDatabaseException();
                             String accessLevel = dataSnapshot.child(firebaseUserPathAccessLevelKey).getValue(String.class);
                             if(accessLevel == null) throw new FirebaseDatabaseException();
                             if(!accessLevel.equals(accessLevelUser)){
+                                loadingDialog.finalTick(); // 3
                                 startActivity(new Intent(Home.this, SupervisaoRelatorio.class));
                                 return;
                             }
                             String permission = dataSnapshot.child(firebaseUserPathThirdKey).child(firebaseUserPathReportsPermissionKey).getValue(String.class);
                             if(permission == null) throw new FirebaseDatabaseException();
                             if(permission.equals("ativo")){
+                                loadingDialog.finalTick(); // 3
                                 startActivity(new Intent(Home.this, SupervisaoRelatorio.class));
                             }else{
                                 throw new FirebaseAuthException("ERROR_ACTIVITY_ACCESS_DENIED", defaultErrorMessage);
                             }
                         }catch (Exception e){
-                            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
                             reference.removeEventListener(this);
                         }
                     }
@@ -181,12 +198,12 @@ public class Home extends AppCompatActivity implements SharedPrefsExceptionError
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Exception e = new Exception(databaseError.getMessage());
-                        ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        if(ActivityStatus.activityIsRunning(Home.this)) ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
                         reference.removeEventListener(this);
                     }
                 });
             }catch (Exception e){
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         });
 
@@ -201,9 +218,9 @@ public class Home extends AppCompatActivity implements SharedPrefsExceptionError
     }
 
     private void exit(){
-        sessionManagement session = new sessionManagement(Home.this);
+        sessionManagement session = new sessionManagement(this);
         session.removeSession();
-        Intent i = new Intent(Home.this, Login.class);
+        Intent i = new Intent(this, Login.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -215,6 +232,45 @@ public class Home extends AppCompatActivity implements SharedPrefsExceptionError
         if (doubleClick.detected()) return;
         this.moveTaskToBack(true);
     }
+
+    ActivityResultLauncher<Intent> selectLeitorFromList = registerForActivityResult(
+    new ActivityResultContracts.StartActivityForResult(),
+    result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            try {
+                Intent data = result.getData();
+                if(data == null) throw new ReaderException();
+                String selectedReader = data.getStringExtra("result");
+                serviceRfidReader.setReader(selectedReader, loadingDialog, errorDialog);
+                if(selectedReader.equals(UHF_RFID_Reader_1128)) {
+                    startActivity(new Intent(this, ReadWrite1128.class));
+                }else if(selectedReader.equals(QR_CODE)){
+                    startActivity(new Intent(this, ReadWriteQrCode.class));
+                }
+            } catch (Exception e) {
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
+            }
+        }
+    });
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loadingDialog.endLoadingDialog();
+        errorDialog.endErrorDialog();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        loadingDialog.endLoadingDialog();
+        errorDialog.endErrorDialog();
+        if(mBounded) {
+            unbindService(serviceConnection);
+            mBounded = false;
+        }
+    }
+}
 
 //    private void copyRecord(DatabaseReference fromPath, final DatabaseReference toPath) {
 //        ValueEventListener valueEventListener = new ValueEventListener() {
@@ -232,40 +288,3 @@ public class Home extends AppCompatActivity implements SharedPrefsExceptionError
 //        };
 //        fromPath.addListenerForSingleValueEvent(valueEventListener);
 //    }
-
-    ActivityResultLauncher<Intent> selectLeitorFromList = registerForActivityResult(
-    new ActivityResultContracts.StartActivityForResult(),
-    result -> {
-        if (result.getResultCode() == Activity.RESULT_OK) {
-            try {
-                Intent data = result.getData();
-                if(data == null) throw new ReaderException();
-                String selectedReader = data.getStringExtra("result");
-                System.out.println(selectedReader);
-                if(selectedReader.equals(UHF_RFID_Reader_1128)) {
-                    sharedPrefsDatabase.SaveReaderOnSharedPreferences(Home.this, UHF_RFID_Reader_1128, MODE_PRIVATE, loadingPage, errorDialog);
-                    startActivity(new Intent(Home.this, ReadWrite1128.class));
-                }else if(selectedReader.equals(QR_CODE)){
-                    sharedPrefsDatabase.SaveReaderOnSharedPreferences(Home.this, QR_CODE, MODE_PRIVATE, loadingPage, errorDialog);
-                    startActivity(new Intent(Home.this, QrCodeModel.class));
-                }
-            } catch (Exception e) {
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
-            }
-        }
-    });
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        loadingPage.endLoadingPage();
-        errorDialog.endErrorDialog();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        loadingPage.endLoadingPage();
-        errorDialog.endErrorDialog();
-    }
-}

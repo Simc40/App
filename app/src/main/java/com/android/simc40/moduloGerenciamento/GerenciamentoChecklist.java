@@ -19,7 +19,7 @@ import com.android.simc40.checklist.Etapas;
 import com.android.simc40.classes.Checklist;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.LayoutException;
@@ -28,7 +28,7 @@ import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
 import com.android.simc40.firebaseApiGET.ApiChecklist;
 import com.android.simc40.firebaseApiGET.ApiChecklistCallback;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.selecaoListas.SelecaoListaEtapas;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
 
@@ -39,9 +39,8 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
     TextView goBack;
     String database;
     DoubleClick doubleClick = new DoubleClick();
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "GerenciamentoChecklist";
     User user;
     TextView title, checklistTitle, creation, createdBy;
     ConstraintLayout creationLayout, createdByLayout;
@@ -54,7 +53,7 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
         errorDialog = new ErrorDialog(GerenciamentoChecklist.this);
         errorDialog.getButton().setOnClickListener(null);
         errorDialog.getButton().setOnClickListener(view -> finish());
-        loadingPage = new LoadingPage(GerenciamentoChecklist.this, errorDialog);
+        loadingDialog = new LoadingDialog(GerenciamentoChecklist.this, errorDialog);
 
         header = findViewById(R.id.header);
         listaLayout = findViewById(R.id.listaLayout);
@@ -75,14 +74,14 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
         });
 
         try{
-            user = sharedPrefsDatabase.getUser(GerenciamentoChecklist.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(GerenciamentoChecklist.this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
             database = user.getCliente().getDatabase();
 
             Intent intent = new Intent(GerenciamentoChecklist.this, SelecaoListaEtapas.class);
             selectEtapaFromList.launch(intent);
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 
@@ -94,10 +93,10 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
                 Intent data = result.getData();
                 if (data == null) throw new LayoutException(EXCEPTION_SERIALIZABLE_NULL);
                 String etapa = data.getStringExtra("result");
-                loadingPage.showLoadingPage();
+                loadingDialog.showLoadingDialog(3);
                 getChecklistEtapa(etapa);
             } catch (LayoutException e) {
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         }else{
             finish();
@@ -108,7 +107,9 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
         String titleText = "Checklist\n" + prettyEtapas.get(etapa);
         title.setText(titleText);
         checklistTitle.setText(prettyEtapas.get(etapa));
+        loadingDialog.tick(); // 1
         ApiChecklistCallback apiCallback = response -> {
+            loadingDialog.tick(); // 2
             if(this.isFinishing() || this.isDestroyed()) return;
             try{
                 Checklist checklist = response.get(etapa);
@@ -125,12 +126,13 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
                     item2.setImageResource(R.drawable.checked);
                     listaLayout.addView(obj);
                 }
-                loadingPage.endLoadingPage();
+                loadingDialog.tick(); // 3
+                loadingDialog.endLoadingDialog();
             }catch (Exception e){
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         };
-        new ApiChecklist(GerenciamentoChecklist.this, database, contextException, loadingPage, errorDialog, apiCallback, null);
+        new ApiChecklist(GerenciamentoChecklist.this, database, this.getClass().getSimpleName(), loadingDialog, errorDialog, apiCallback, null);
     }
 
     @Override
@@ -145,7 +147,7 @@ public class GerenciamentoChecklist extends AppCompatActivity implements LayoutE
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

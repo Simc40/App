@@ -1,6 +1,7 @@
 package com.android.simc40.Images;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.android.simc40.errorHandling.ErrorHandling;
@@ -11,7 +12,6 @@ import java.io.File;
 
 public class DownloadImage{
 
-    static String contextException = "DownloadImage";
 
     public static void fromUrlLayoutGone(ImageView imageView, String path){
         try{
@@ -27,11 +27,11 @@ public class DownloadImage{
                         @Override
                         public void onError(Exception e) {
                             imageView.setVisibility(View.GONE);
-                            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+                            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
                         }
                     });
         }catch (Exception e){
-            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
         }
     }
 
@@ -47,11 +47,11 @@ public class DownloadImage{
                         public void onSuccess() {}
                         @Override
                         public void onError(Exception e) {
-                            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+                            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
                         }
                     });
         }catch (Exception e){
-            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
         }
     }
 
@@ -68,11 +68,11 @@ public class DownloadImage{
                         public void onSuccess() {}
                         @Override
                         public void onError(Exception e) {
-                            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+                            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
                         }
                     });
         }catch (Exception e){
-            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
         }
     }
 
@@ -92,7 +92,7 @@ public class DownloadImage{
 //                        }
 //                    });
         }catch (Exception e){
-            ErrorHandling.printStackTrace(contextException, e.getStackTrace());
+            ErrorHandling.printStackTrace(DownloadImage.class.getSimpleName(), e.getStackTrace());
         }
     }
 

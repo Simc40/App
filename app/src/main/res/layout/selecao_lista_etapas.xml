@@ -31,7 +31,7 @@
     <TextView
         android:id="@+id/title"
         style="@style/blackTitle"
-        android:text="@string/selecaoListaEtapas"
+        android:text="@string/selecaoListaPecas"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

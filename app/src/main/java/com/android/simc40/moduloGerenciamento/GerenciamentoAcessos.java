@@ -17,11 +17,11 @@ import com.android.simc40.R;
 import com.android.simc40.accessLevel.AccessLevel;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.LayoutException;
 import com.android.simc40.errorHandling.LayoutExceptionErrorList;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.selecaoListas.SelecaoListaUsuarios;
 
 public class GerenciamentoAcessos extends AppCompatActivity implements LayoutExceptionErrorList, AccessLevel {
@@ -31,9 +31,8 @@ public class GerenciamentoAcessos extends AppCompatActivity implements LayoutExc
     TextView goBack;
     TextView textViewNome, textViewEmail, textViewEmpresa, textViewAccessLevel, textViewMatricula, textViewTelefone;
     ImageView imageViewAppPermission, imageViewReportPermission, imageViewImgUrl;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "GerenciamentoAcessos";
     DoubleClick doubleClick = new DoubleClick();
 
     @Override
@@ -53,7 +52,7 @@ public class GerenciamentoAcessos extends AppCompatActivity implements LayoutExc
         goBack.setOnClickListener(goBackListener);
 
         errorDialog = new ErrorDialog(GerenciamentoAcessos.this);
-        loadingPage = new LoadingPage(GerenciamentoAcessos.this, errorDialog);
+        loadingDialog = new LoadingDialog(GerenciamentoAcessos.this, errorDialog);
 
         textViewNome = findViewById(R.id.nome);
         textViewEmail = findViewById(R.id.email);
@@ -79,7 +78,7 @@ public class GerenciamentoAcessos extends AppCompatActivity implements LayoutExc
                 user = (User) data.getSerializableExtra("result");
                 fill_fields(user);
             } catch (LayoutException e) {
-                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
             }
         }else{
             finish();
@@ -106,7 +105,7 @@ public class GerenciamentoAcessos extends AppCompatActivity implements LayoutExc
 
             if(imageViewImgUrl != null) DownloadImage.fromUrlLayoutGone(imageViewImgUrl, user.getImgUrl());
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 }

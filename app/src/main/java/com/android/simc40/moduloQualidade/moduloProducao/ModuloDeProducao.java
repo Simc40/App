@@ -35,19 +35,19 @@ public class ModuloDeProducao extends AppCompatActivity {
         });
         card2.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-//            startActivity(new Intent(ModuloDeProducao.this, Armacao.class));
+            startActivity(new Intent(ModuloDeProducao.this, Armacao.class));
         });
         card3.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-//            startActivity(new Intent(ModuloDeProducao.this, Forma.class));
+            startActivity(new Intent(ModuloDeProducao.this, Forma.class));
         });
         card4.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-//            startActivity(new Intent(ModuloDeProducao.this, ArmacaoCForma.class));
+            startActivity(new Intent(ModuloDeProducao.this, ArmacaoCForma.class));
         });
         card5.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
-//            startActivity(new Intent(ModuloDeProducao.this, Concretagem.class));
+            startActivity(new Intent(ModuloDeProducao.this, Concretagem.class));
         });
         card6.setOnClickListener(view -> {
             if(doubleClick.detected()) return;

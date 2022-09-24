@@ -5,15 +5,16 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 
 import com.android.simc40.accessLevel.AccessLevel;
+import com.android.simc40.activityStatus.ActivityStatus;
 import com.android.simc40.classes.Cliente;
 import com.android.simc40.classes.User;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.FirebaseDatabaseExceptionErrorList;
 import com.android.simc40.firebasePaths.FirebaseUserPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DataSnapshot;
@@ -27,17 +28,18 @@ import java.util.TreeMap;
 
 public class ApiUsers implements DefaultErrorMessage, FirebaseUserPaths, FirebaseDatabaseExceptionErrorList, AccessLevel {
 
+    public final static int ticks = ApiClientes.ticks + 3;
     DatabaseReference reference;
     Activity activity;
     String contextException;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     ApiUsersCallback apiUsersCallback;
     HashMap<String, Cliente> clientesMap;
     TreeMap<String, User> usersMap = new TreeMap<>();
     String accessLevel, uidCliente;
 
-    public ApiUsers(Activity activity, String contextException, LoadingPage loadingPage, ErrorDialog errorDialog, ApiUsersCallback apiUsersCallback, String uidCliente, String accessLevel) throws Exception {
+    public ApiUsers(Activity activity, String contextException, LoadingDialog loadingDialog, ErrorDialog errorDialog, ApiUsersCallback apiUsersCallback, String uidCliente, String accessLevel) throws Exception {
         if(accessLevel == null || uidCliente == null) throw new FirebaseDatabaseException(EXCEPTION_RETURNED_NULL_VALUE);
         if(accessLevel.equals(accessLevelUser)) {
             errorDialog.getButton().setOnClickListener(view -> activity.onBackPressed());
@@ -45,7 +47,7 @@ public class ApiUsers implements DefaultErrorMessage, FirebaseUserPaths, Firebas
         }
         this.activity = activity;
         this.contextException = contextException;
-        this.loadingPage = loadingPage;
+        this.loadingDialog = loadingDialog;
         this.errorDialog = errorDialog;
         this.apiUsersCallback = apiUsersCallback;
         this.uidCliente = uidCliente;
@@ -56,16 +58,18 @@ public class ApiUsers implements DefaultErrorMessage, FirebaseUserPaths, Firebas
             getUsers();
         };
 
-        new ApiClientes(activity, contextException, loadingPage, errorDialog, apiClientesCallback);
+        new ApiClientes(activity, contextException, loadingDialog, errorDialog, apiClientesCallback);
     }
 
     private void getUsers(){
         try{
             if(!ErrorHandling.deviceIsConnected(activity)) throw new FirebaseNetworkException(defaultErrorMessage);
             reference = FirebaseDatabase.getInstance().getReference().child(firebaseUserPathFirstKey);
+            if(loadingDialog != null) loadingDialog.tick(); // 1
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(loadingDialog != null) loadingDialog.tick(); // 2
                     try{
                         if(dataSnapshot.getValue() == null) throw new FirebaseDatabaseException();
                         for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
@@ -86,12 +90,16 @@ public class ApiUsers implements DefaultErrorMessage, FirebaseUserPaths, Firebas
                                 dataSnapshot1.child(firebaseUserPathTelefoneKey).getValue(String.class),
                                 dataSnapshot1.child(firebaseUserPathImgUrlKey).getValue(String.class)
                             );
-                            System.out.println(user);
                             usersMap.put(accessLevelMap.get(user.getAccessLevel()) + user.getNome(), user);
                         }
-                        if(activityIsRunning()) apiUsersCallback.onCallback(usersMap);
+                        if(usersMap.size() == 0) {
+                            errorDialog.getButton().setOnClickListener(view -> activity.finish());
+                            throw new FirebaseDatabaseException(EXCEPTION_NULL_DATABASE_USERS);
+                        }
+                        if(loadingDialog != null) loadingDialog.tick(); // 3
+                        if(ActivityStatus.activityIsRunning(activity)) apiUsersCallback.onCallback(usersMap);
                     }catch (Exception e){
-                        if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                         else ErrorHandling.handleError(contextException, e);
                     }
                 }
@@ -99,17 +107,13 @@ public class ApiUsers implements DefaultErrorMessage, FirebaseUserPaths, Firebas
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Exception e = new Exception(databaseError.getMessage());
-                    if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                    if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                     else ErrorHandling.handleError(contextException, e);
                 }
             });
         }catch (Exception e){
-            if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
             else ErrorHandling.handleError(contextException, e);
         }
-    }
-
-    private boolean activityIsRunning(){
-        return !(activity.isFinishing() || activity.isDestroyed());
     }
 }

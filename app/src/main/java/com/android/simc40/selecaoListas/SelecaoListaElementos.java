@@ -14,17 +14,15 @@ import com.android.simc40.R;
 import com.android.simc40.classes.Elemento;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
-import com.android.simc40.errorHandling.FirebaseDatabaseException;
-import com.android.simc40.errorHandling.LayoutException;
 import com.android.simc40.errorHandling.QualidadeException;
 import com.android.simc40.errorHandling.QualidadeExceptionErrorList;
 import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
 import com.android.simc40.firebaseApiGET.ApiElementos;
 import com.android.simc40.firebaseApiGET.ApiElementosCallback;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
 
 public class SelecaoListaElementos extends AppCompatActivity implements SharedPrefsExceptionErrorList, QualidadeExceptionErrorList {
@@ -37,8 +35,7 @@ public class SelecaoListaElementos extends AppCompatActivity implements SharedPr
     String database, obraUid;
     User user;
     ErrorDialog errorDialog;
-    LoadingPage loadingPage;
-    String contextException = "SelecaoListaElementos";
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +49,15 @@ public class SelecaoListaElementos extends AppCompatActivity implements SharedPr
         goBack = findViewById(R.id.goBack);
 
         errorDialog = new ErrorDialog(SelecaoListaElementos.this);
-        loadingPage = new LoadingPage(SelecaoListaElementos.this, errorDialog);
-        loadingPage.showLoadingPage();
+        loadingDialog = new LoadingDialog(SelecaoListaElementos.this, errorDialog);
+        loadingDialog.showLoadingDialog(3 + ApiElementos.ticks);
 
         try{
-            user = sharedPrefsDatabase.getUser(SelecaoListaElementos.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(SelecaoListaElementos.this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
             database = user.getCliente().getDatabase();
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
 
         inflateHeader();
@@ -70,48 +67,52 @@ public class SelecaoListaElementos extends AppCompatActivity implements SharedPr
             onBackPressed();
         });
 
+        loadingDialog.tick(); // 1
+
         try{
             ApiElementosCallback apiElementosCallback = response -> {
-                    for(Elemento elemento : response.values()){
-                        String obra = elemento.getObra().getNomeObra();
-                        String status = elemento.getStatus();
-                        if(obraUid != null){
-                            if(status.equals("inativo")) continue;
-                            else if(!elemento.getObra().getUid().equals(obraUid)) continue;
-                        }
-                        String nome = elemento.getNome();
-                        String tipo = elemento.getTipoDePeca().getNome();
-                        String numMax = elemento.getPecasPlanejadas();
-                        String numPecas = elemento.getPecasCadastradas();
-                        View obj = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_6_list_item, listaLayout ,false);
-                        TextView item1 = obj.findViewById(R.id.item1);
-                        TextView item2 = obj.findViewById(R.id.item2);
-                        TextView item3 = obj.findViewById(R.id.item3);
-                        TextView item4 = obj.findViewById(R.id.item4);
-                        TextView item5 = obj.findViewById(R.id.item5);
-                        ImageView item6 = obj.findViewById(R.id.item6);
-                        item1.setText(obra);
-                        item2.setText(nome);
-                        item3.setText(tipo);
-                        item4.setText(numMax);
-                        item5.setText(numPecas);
-                        item6.setImageResource(R.drawable.forward);
-                        item6.setTag(elemento);
-                        item6.setOnClickListener(view -> {
-                            if(doubleClick.detected()) return;
-                            try {
-                                Intent intent = new Intent();
-                                Elemento selectedElemento = (Elemento) item6.getTag();
-                                intent.putExtra("result", selectedElemento);
-                                setResult (SelecaoListaElementos.RESULT_OK, intent);
-                                finish();
-                            }catch (Exception e){
-                                ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
-                            }
-                        });
-                        listaLayout.addView(obj);
+                loadingDialog.tick(); // 2
+                for(Elemento elemento : response.values()){
+                    String obra = elemento.getObra().getNomeObra();
+                    String status = elemento.getStatus();
+                    if(obraUid != null){
+                        if(status.equals("inativo")) continue;
+                        else if(!elemento.getObra().getUid().equals(obraUid)) continue;
                     }
-                loadingPage.endLoadingPage();
+                    String nome = elemento.getNome();
+                    String tipo = elemento.getTipoDePeca().getNome();
+                    String numMax = elemento.getPecasPlanejadas();
+                    String numPecas = elemento.getPecasCadastradas();
+                    View obj = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_6_list_item, listaLayout ,false);
+                    TextView item1 = obj.findViewById(R.id.item1);
+                    TextView item2 = obj.findViewById(R.id.item2);
+                    TextView item3 = obj.findViewById(R.id.item3);
+                    TextView item4 = obj.findViewById(R.id.item4);
+                    TextView item5 = obj.findViewById(R.id.item5);
+                    ImageView item6 = obj.findViewById(R.id.item6);
+                    item1.setText(obra);
+                    item2.setText(nome);
+                    item3.setText(tipo);
+                    item4.setText(numMax);
+                    item5.setText(numPecas);
+                    item6.setImageResource(R.drawable.forward);
+                    item6.setTag(elemento);
+                    item6.setOnClickListener(view -> {
+                        if(doubleClick.detected()) return;
+                        try {
+                            Intent intent = new Intent();
+                            Elemento selectedElemento = (Elemento) item6.getTag();
+                            intent.putExtra("result", selectedElemento);
+                            setResult (SelecaoListaElementos.RESULT_OK, intent);
+                            finish();
+                        }catch (Exception e){
+                            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
+                        }
+                    });
+                    listaLayout.addView(obj);
+                }
+                loadingDialog.finalTick(); // 3
+                loadingDialog.endLoadingDialog();
                 if(obraUid != null && listaLayout.getChildCount() == 0) {
                     errorDialog.getButton().setOnClickListener(view -> {
                         errorDialog.endErrorDialog();
@@ -120,9 +121,9 @@ public class SelecaoListaElementos extends AppCompatActivity implements SharedPr
                     throw new QualidadeException(EXCEPTION_NO_REGISTERED_ELEMENTOS);
                 }
             };
-            new ApiElementos(SelecaoListaElementos.this, database, contextException, loadingPage, errorDialog, apiElementosCallback, true);
+            new ApiElementos(SelecaoListaElementos.this, database, this.getClass().getSimpleName(), loadingDialog, errorDialog, apiElementosCallback, true);
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 
@@ -158,7 +159,7 @@ public class SelecaoListaElementos extends AppCompatActivity implements SharedPr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

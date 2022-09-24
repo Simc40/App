@@ -14,17 +14,16 @@ import com.android.simc40.R;
 import com.android.simc40.accessLevel.AccessLevel;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
-import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
 import com.android.simc40.firebaseApiGET.ApiUsers;
 import com.android.simc40.firebaseApiGET.ApiUsersCallback;
 import com.android.simc40.firebasePaths.FirebaseObraPaths;
 import com.android.simc40.firebasePaths.FirebaseUserPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -33,9 +32,8 @@ public class SelecaoListaUsuarios extends AppCompatActivity implements DefaultEr
     LinearLayout header;
     LinearLayout listaLayout;
     TextView goBack;
-    String contextException = "SelecaoListaUsuarios";
     DoubleClick doubleClick = new DoubleClick();
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     User user;
     String uidCliente, accessLevel;
@@ -45,22 +43,24 @@ public class SelecaoListaUsuarios extends AppCompatActivity implements DefaultEr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selecao_lista_usuarios);
 
-        errorDialog = new ErrorDialog(SelecaoListaUsuarios.this);
-        loadingPage = new LoadingPage(SelecaoListaUsuarios.this, errorDialog);
-        loadingPage.showLoadingPage();
+        errorDialog = new ErrorDialog(this);
+        loadingDialog = new LoadingDialog(this, errorDialog);
+        loadingDialog.showLoadingDialog(4 + ApiUsers.ticks);
 
         header = findViewById(R.id.header);
         listaLayout = findViewById(R.id.listaLayout);
         goBack = findViewById(R.id.goBack);
 
         try{
-            user = sharedPrefsDatabase.getUser(SelecaoListaUsuarios.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
             uidCliente = user.getCliente().getUid();
             accessLevel = user.getAccessLevel();
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
+
+        loadingDialog.tick(); // 1
 
         View headerXML = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_4_list_item_header, header, false);
         TextView item1 = headerXML.findViewById(R.id.item1);
@@ -80,7 +80,9 @@ public class SelecaoListaUsuarios extends AppCompatActivity implements DefaultEr
         });
 
         try {
+            loadingDialog.tick(); // 2
             ApiUsersCallback apiUsersCallback = response -> {
+                loadingDialog.tick(); // 3
                 for (User user : response.values()) {
                     View obj = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_4_list_item, listaLayout, false);
                     TextView objItem1 = obj.findViewById(R.id.item1);
@@ -104,11 +106,12 @@ public class SelecaoListaUsuarios extends AppCompatActivity implements DefaultEr
                     });
                     listaLayout.addView(obj);
                 }
-                loadingPage.endLoadingPage();
+                loadingDialog.finalTick(); // 4
+                loadingDialog.endLoadingDialog();
             };
-            new ApiUsers(SelecaoListaUsuarios.this, contextException, loadingPage, errorDialog, apiUsersCallback, uidCliente, accessLevel);
+            new ApiUsers(SelecaoListaUsuarios.this, this.getClass().getSimpleName(), loadingDialog, errorDialog, apiUsersCallback, uidCliente, accessLevel);
         } catch (Exception e) {
-            ErrorHandling.handleError(contextException, e, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, errorDialog);
             FirebaseAuth.getInstance().signOut();
         }
     }
@@ -125,7 +128,7 @@ public class SelecaoListaUsuarios extends AppCompatActivity implements DefaultEr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

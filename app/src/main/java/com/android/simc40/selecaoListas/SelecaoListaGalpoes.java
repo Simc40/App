@@ -14,17 +14,16 @@ import com.android.simc40.R;
 import com.android.simc40.classes.Galpao;
 import com.android.simc40.classes.User;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
-import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
 import com.android.simc40.firebaseApiGET.ApiGalpoes;
 import com.android.simc40.firebaseApiGET.ApiGalpoesCallback;
 import com.android.simc40.firebasePaths.FirebaseObraPaths;
 import com.android.simc40.firebasePaths.FirebaseUserPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
 
 public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErrorMessage, SharedPrefsExceptionErrorList, FirebaseObraPaths, FirebaseUserPaths {
@@ -34,9 +33,8 @@ public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErr
     TextView goBack;
     String database;
     DoubleClick doubleClick = new DoubleClick();
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "SelecaoListaObras";
     User user;
 
     @Override
@@ -47,19 +45,19 @@ public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErr
         errorDialog = new ErrorDialog(SelecaoListaGalpoes.this);
         errorDialog.getButton().setOnClickListener(null);
         errorDialog.getButton().setOnClickListener(view -> finish());
-        loadingPage = new LoadingPage(SelecaoListaGalpoes.this, errorDialog);
-        loadingPage.showLoadingPage();
+        loadingDialog = new LoadingDialog(SelecaoListaGalpoes.this, errorDialog);
+        loadingDialog.showLoadingDialog(3 + ApiGalpoes.ticks);
 
         header = findViewById(R.id.header);
         listaLayout = findViewById(R.id.listaLayout);
         goBack = findViewById(R.id.goBack);
 
         try{
-            user = sharedPrefsDatabase.getUser(SelecaoListaGalpoes.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(SelecaoListaGalpoes.this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
             database = user.getCliente().getDatabase();
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
 
         header = findViewById(R.id.header);
@@ -79,9 +77,11 @@ public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErr
             onBackPressed();
         });
 
+        loadingDialog.tick(); // 1
 
         try{
             ApiGalpoesCallback apiCallback = response -> {
+                loadingDialog.tick(); // 2
                 if(this.isFinishing() || this.isDestroyed()) return;
                 for(Galpao galpao: response.values()) {
                     String nome_galpao = galpao.getNome();
@@ -92,16 +92,10 @@ public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErr
                     ImageView objItem3 = obj.findViewById(R.id.item3);
                     objItem1.setText(nome_galpao);
                     objItem2.setText(disponivel);
-                    if(disponivel.equals("ativo")) {
-                        disponivel = "Disponível";
+                    if(galpao.getPrettyStatus().equals(Galpao.disponivel)){
                         objItem3.setImageResource(R.drawable.checked);
-                    }
-                    else if(disponivel.equals("inativo")) {
-                        disponivel = "Indisponível";
+                    }else{
                         objItem3.setImageResource(R.drawable.uncheck);
-                    }
-                    else{
-                        continue;
                     }
                     objItem3.setTag(galpao);
                     objItem3.setOnClickListener(view -> {
@@ -114,11 +108,12 @@ public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErr
                     });
                     listaLayout.addView(obj);
                 }
-                loadingPage.endLoadingPage();
+                loadingDialog.finalTick(); // 3
+                loadingDialog.endLoadingDialog();
             };
-            new ApiGalpoes(SelecaoListaGalpoes.this, database, contextException, loadingPage, errorDialog, apiCallback, null);
+            new ApiGalpoes(SelecaoListaGalpoes.this, database, this.getClass().getSimpleName(), loadingDialog, errorDialog, apiCallback, null);
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 
@@ -134,7 +129,7 @@ public class SelecaoListaGalpoes extends AppCompatActivity implements DefaultErr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

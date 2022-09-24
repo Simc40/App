@@ -15,14 +15,13 @@ import com.android.simc40.classes.Transportadora;
 import com.android.simc40.classes.User;
 import com.android.simc40.classes.Veiculo;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
-import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.SharedPrefsException;
 import com.android.simc40.errorHandling.SharedPrefsExceptionErrorList;
 import com.android.simc40.firebaseApiGET.ApiVeiculos;
 import com.android.simc40.firebaseApiGET.ApiVeiculosCallback;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.sharedPreferences.sharedPrefsDatabase;
 
 public class SelecaoListaVeiculos extends AppCompatActivity implements SharedPrefsExceptionErrorList {
@@ -32,9 +31,8 @@ public class SelecaoListaVeiculos extends AppCompatActivity implements SharedPre
     TextView goBack;
     String database;
     DoubleClick doubleClick = new DoubleClick();
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "SelecaoListaVeiculos";
     User user;
 
     @Override
@@ -42,23 +40,25 @@ public class SelecaoListaVeiculos extends AppCompatActivity implements SharedPre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selecao_lista_veiculos);
 
-        errorDialog = new ErrorDialog(SelecaoListaVeiculos.this);
+        errorDialog = new ErrorDialog(this);
         errorDialog.getButton().setOnClickListener(null);
         errorDialog.getButton().setOnClickListener(view -> finish());
-        loadingPage = new LoadingPage(SelecaoListaVeiculos.this, errorDialog);
-        loadingPage.showLoadingPage();
+        loadingDialog = new LoadingDialog(this, errorDialog);
+        loadingDialog.showLoadingDialog(4 + ApiVeiculos.ticks);
 
         header = findViewById(R.id.header);
         listaLayout = findViewById(R.id.listaLayout);
         goBack = findViewById(R.id.goBack);
 
         try{
-            user = sharedPrefsDatabase.getUser(SelecaoListaVeiculos.this, MODE_PRIVATE, loadingPage, errorDialog);
+            user = sharedPrefsDatabase.getUser(this, MODE_PRIVATE, loadingDialog, errorDialog);
             if (user == null) throw new SharedPrefsException(EXCEPTION_USER_NULL);
             database = user.getCliente().getDatabase();
         } catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
+
+        loadingDialog.tick(); // 1
 
         View headerXML = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_5_list_item_header, header ,false);
         TextView item1 = headerXML.findViewById(R.id.item1);
@@ -81,7 +81,9 @@ public class SelecaoListaVeiculos extends AppCompatActivity implements SharedPre
         });
 
         try{
+            loadingDialog.tick(); // 2
             ApiVeiculosCallback apiCallback = response -> {
+                loadingDialog.tick(); // 3
                 if(this.isFinishing() || this.isDestroyed()) return;
                 for(Veiculo veiculo: response.values()) {
 
@@ -116,11 +118,12 @@ public class SelecaoListaVeiculos extends AppCompatActivity implements SharedPre
                         listaLayout.addView(obj);
 
                 }
-                loadingPage.endLoadingPage();
+                loadingDialog.finalTick(); // 4
+                loadingDialog.endLoadingDialog();
             };
-            new ApiVeiculos(SelecaoListaVeiculos.this, database, contextException, loadingPage, errorDialog, apiCallback, null);
+            new ApiVeiculos(SelecaoListaVeiculos.this, database, this.getClass().getSimpleName(), loadingDialog, errorDialog, apiCallback, null);
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 
@@ -136,7 +139,7 @@ public class SelecaoListaVeiculos extends AppCompatActivity implements SharedPre
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

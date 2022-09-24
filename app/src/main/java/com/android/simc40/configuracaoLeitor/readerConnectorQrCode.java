@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.android.simc40.R;
 import com.android.simc40.alerts.errorDialog;
-import com.android.simc40.configuracaoLeitor.qrCode.QrCodeModel;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -39,8 +38,8 @@ public class readerConnectorQrCode {
 
     public readerConnectorQrCode(Activity myActivity, LinearLayout tagItemLayout, Button read, Button clear){
         if (myActivity == null){
-        return;
-    }
+            return;
+        }
         this.myActivity = myActivity;
         this.tagItemLayout = tagItemLayout;
         this.read = read;

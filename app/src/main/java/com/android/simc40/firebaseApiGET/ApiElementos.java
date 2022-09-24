@@ -6,17 +6,18 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.android.simc40.activityStatus.ActivityStatus;
 import com.android.simc40.classes.Elemento;
 import com.android.simc40.classes.Forma;
 import com.android.simc40.classes.Obra;
 import com.android.simc40.classes.TipoDePeca;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.FirebaseDatabaseExceptionErrorList;
 import com.android.simc40.firebasePaths.FirebaseElementoPaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,10 +31,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths, FirebaseDatabaseExceptionErrorList {
+
+    public final static int ticks = ApiFormas.ticks + ApiTiposDePeca.ticks + ApiObras.ticks + 3;
     DatabaseReference reference;
     Activity activity;
     String contextException, database;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
     ApiElementosCallback apiElementosCallback;
     TreeMap<String, Elemento> elementosMap = new TreeMap<>();
@@ -46,11 +49,11 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
     ApiObras apiObras;
     boolean ordered;
 
-    public ApiElementos(Activity activity, String database, String contextException, LoadingPage loadingPage, ErrorDialog errorDialog, ApiElementosCallback apiElementosCallback, boolean ordered){
+    public ApiElementos(Activity activity, String database, String contextException, LoadingDialog loadingDialog, ErrorDialog errorDialog, ApiElementosCallback apiElementosCallback, boolean ordered){
         this.activity = activity;
         this.database = database;
         this.contextException = contextException;
-        this.loadingPage = loadingPage;
+        this.loadingDialog = loadingDialog;
         this.errorDialog = errorDialog;
         this.apiElementosCallback = apiElementosCallback;
         this.ordered = ordered;
@@ -74,7 +77,7 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
                 responseObra = true;
                 checkResponse();
             }catch (Exception e){
-                if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                 else ErrorHandling.handleError(contextException, e);
             }
         };
@@ -85,10 +88,10 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
             checkResponse();
         };
 
-        new ApiPDFElemento(activity, database, contextException, loadingPage, errorDialog, apiPDFElementoCallback);
-        new ApiFormas(activity, database, contextException, loadingPage, errorDialog, apiFormasCallback);
-        new ApiTiposDePeca(activity, database, contextException, loadingPage, errorDialog, apiTiposDePecaCallback);
-        apiObras = new ApiObras(activity, database, contextException, loadingPage, errorDialog, apiObrasCallback);
+        new ApiPDFElemento(activity, database, contextException, loadingDialog, errorDialog, apiPDFElementoCallback);
+        new ApiFormas(activity, database, contextException, loadingDialog, errorDialog, apiFormasCallback);
+        new ApiTiposDePeca(activity, database, contextException, loadingDialog, errorDialog, apiTiposDePecaCallback);
+        apiObras = new ApiObras(activity, database, contextException, loadingDialog, errorDialog, apiObrasCallback);
     }
 
     private void checkResponse(){
@@ -99,12 +102,17 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
         try{
             if(!ErrorHandling.deviceIsConnected(activity)) throw new FirebaseNetworkException(defaultErrorMessage);
             reference = FirebaseDatabase.getInstance(database).getReference().child(firebaseElementoPathFirstKey);
+            if(loadingDialog != null) loadingDialog.tick(); // 1
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(loadingDialog != null) loadingDialog.tick(); // 2
                     try{
-                        if(dataSnapshot.getValue() == null) throw new FirebaseDatabaseException();
+                        if(dataSnapshot.getValue() == null) {
+                            errorDialog.getButton().setOnClickListener(view -> activity.finish());
+                            throw new FirebaseDatabaseException(EXCEPTION_NULL_DATABASE_ELEMENTOS);
+                        }
                         for(DataSnapshot datasnapshot1: dataSnapshot.getChildren()){
                             String uidObra = datasnapshot1.getKey();
                             for(DataSnapshot dataSnapshot2 : datasnapshot1.getChildren()){
@@ -136,9 +144,10 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
                                 else elementosMap.put(elemento.getUid(), elemento);
                             }
                         }
-                        if(activityIsRunning()) apiElementosCallback.onCallback(elementosMap);
+                        if(loadingDialog != null) loadingDialog.tick(); // 3
+                        if(ActivityStatus.activityIsRunning(activity)) apiElementosCallback.onCallback(elementosMap);
                     }catch (Exception e){
-                        if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                         else ErrorHandling.handleError(contextException, e);
                     }
                 }
@@ -146,18 +155,14 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Exception e = new Exception(databaseError.getMessage());
-                    if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                    if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                     else ErrorHandling.handleError(contextException, e);
                 }
             });
         }catch (Exception e){
-            if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
             else ErrorHandling.handleError(contextException, e);
         }
-    }
-
-    private boolean activityIsRunning(){
-        return !(activity.isFinishing() || activity.isDestroyed());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -166,5 +171,9 @@ public class ApiElementos implements DefaultErrorMessage, FirebaseElementoPaths,
                 .filter(word -> word.length() > 0)
                 .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
                 .collect(Collectors.joining(" "));
+    }
+
+    public TreeMap<String, Obra> getObras(){
+        return obrasMap;
     }
 }

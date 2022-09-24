@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/gray_background"
-    tools:context=".moduloQualidade.relatorio_erros.RelatorioDeErros">
+    tools:context=".moduloQualidade.relatorioErros.RelatorioDeErros">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -31,96 +32,39 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/title"
                 style="@style/blackTitle"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/relatorio_de_inconformidades"/>
 
-            <LinearLayout
-                android:id="@+id/contentLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:id="@+id/filterLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp">
-
-                    <TextView
-                        android:id="@+id/textViewFilter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/adicionar_filtros"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <Spinner
-                        android:id="@+id/spinnerFiltros"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toEndOf="@+id/textViewFilter" />
-
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/secondaryFilterLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewSecondaryFilter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"/>
-
-                    <Spinner
-                        android:id="@+id/spinnerFiltros2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toEndOf="@+id/textViewSecondaryFilter" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/header"
-                    android:layout_marginTop="20dp"
-                    style="@style/LinearLayoutMatchWrapVert" />
-
-                <LinearLayout
-                    android:id="@+id/listaLayout"
-                    style="@style/LinearLayoutMatchWrapVert"/>
-
+            <androidx.cardview.widget.CardView
+                android:id="@+id/filtros"
+                app:cardBackgroundColor="@color/black"
+                style="@style/mQualidadeButton">
                 <TextView
-                    android:id="@+id/title2"
-                    style="@style/blackTitle"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/relatorio"/>
+                    style="@style/mQualidadeButtonText"
+                    android:textColor="@color/white"
+                    android:text="Aplicar Filtros"/>
+            </androidx.cardview.widget.CardView>
 
-                <LinearLayout
-                    android:id="@+id/header2"
-                    android:layout_marginTop="20dp"
-                    style="@style/LinearLayoutMatchWrapVert" />
+            <TextView
+                android:id="@+id/title"
+                style="@style/blackTitle"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/relatorio"/>
 
-                <LinearLayout
-                    android:id="@+id/listaLayout2"
-                    style="@style/LinearLayoutMatchWrapVert"
-                    android:layout_marginBottom="20dp"/>
-            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_marginTop="20dp"
+                style="@style/LinearLayoutMatchWrapVert" />
+
+            <LinearLayout
+                android:id="@+id/listaLayout"
+                style="@style/LinearLayoutMatchWrapVert"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

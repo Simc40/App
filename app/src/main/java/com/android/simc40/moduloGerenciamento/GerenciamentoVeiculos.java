@@ -15,11 +15,11 @@ import android.widget.TextView;
 import com.android.simc40.R;
 import com.android.simc40.classes.Veiculo;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.LayoutException;
 import com.android.simc40.errorHandling.LayoutExceptionErrorList;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.android.simc40.selecaoListas.SelecaoListaVeiculos;
 
 
@@ -27,9 +27,8 @@ public class GerenciamentoVeiculos extends AppCompatActivity implements LayoutEx
 
     CardView reportarInformacaoIncorreta, goBackEnd;
     TextView goBack, textViewTransportadora, textViewCapacidadeCarga, textViewMarca, textViewModelo, textViewNumeroEixos, textViewPeso, textViewPlaca, textViewCreation, textViewCreatedBy, textViewLastModifiedOn, textViewLastModifiedBy;
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
-    String contextException = "GerenciamentoVeiculos";
     DoubleClick doubleClick = new DoubleClick();
     Veiculo veiculo;
 
@@ -49,8 +48,8 @@ public class GerenciamentoVeiculos extends AppCompatActivity implements LayoutEx
         goBack.setOnClickListener(goBackListener);
         goBackEnd.setOnClickListener(goBackListener);
 
-        errorDialog = new ErrorDialog(GerenciamentoVeiculos.this);
-        loadingPage = new LoadingPage(GerenciamentoVeiculos.this, errorDialog);
+        errorDialog = new ErrorDialog(this);
+        loadingDialog = new LoadingDialog(this, errorDialog);
 
         textViewTransportadora = findViewById(R.id.transportadora);
         textViewCapacidadeCarga = findViewById(R.id.capacidadeCarga);
@@ -64,7 +63,7 @@ public class GerenciamentoVeiculos extends AppCompatActivity implements LayoutEx
         textViewLastModifiedOn = findViewById(R.id.lastModifiedOn);
         textViewLastModifiedBy = findViewById(R.id.lastModifiedBy);
 
-        Intent intent = new Intent(GerenciamentoVeiculos.this, SelecaoListaVeiculos.class);
+        Intent intent = new Intent(this, SelecaoListaVeiculos.class);
         selectVeiculoFromList.launch(intent);
     }
 
@@ -79,7 +78,7 @@ public class GerenciamentoVeiculos extends AppCompatActivity implements LayoutEx
                         fill_fields(veiculo);
                         System.out.println(veiculo);
                     } catch (LayoutException e) {
-                        ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
                     }
                 }else{
                     finish();
@@ -101,7 +100,7 @@ public class GerenciamentoVeiculos extends AppCompatActivity implements LayoutEx
             if(textViewLastModifiedOn != null && veiculo.getLastModifiedOn() != null) textViewLastModifiedOn.setText(veiculo.getLastModifiedOn());
             if(textViewLastModifiedBy != null && veiculo.getLastModifiedBy() != null) textViewLastModifiedBy.setText(veiculo.getLastModifiedBy());
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
         }
     }
 }

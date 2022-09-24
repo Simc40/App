@@ -8,5 +8,5 @@ public interface PermissionList {
     String readStoragePermission = Manifest.permission.READ_EXTERNAL_STORAGE;
     String writeStoragePermission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-    String[] permissionList = new String[]{cameraPermission, galleryPermission, readStoragePermission, writeStoragePermission};
+    String[] permissionList = new String[]{writeStoragePermission, readStoragePermission, galleryPermission, cameraPermission};
 }

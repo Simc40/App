@@ -4,14 +4,15 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
+import com.android.simc40.activityStatus.ActivityStatus;
 import com.android.simc40.classes.Cliente;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
 import com.android.simc40.errorHandling.FirebaseDatabaseExceptionErrorList;
 import com.android.simc40.firebasePaths.FirebaseClientePaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,18 +23,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class ApiClientes implements DefaultErrorMessage, FirebaseClientePaths, FirebaseDatabaseExceptionErrorList {
+
+    public final static int ticks = 3;
     Activity activity;
     DatabaseReference reference;
     HashMap<String, Cliente> clientesMap = new HashMap<>();
 
-    public ApiClientes(Activity activity, String contextException, LoadingPage loadingPage, ErrorDialog errorDialog, ApiClientesCallback apiClientesCallback){
+    public ApiClientes(Activity activity, String contextException, LoadingDialog loadingDialog, ErrorDialog errorDialog, ApiClientesCallback apiClientesCallback){
         this.activity = activity;
         try{
             if(!ErrorHandling.deviceIsConnected(activity)) throw new FirebaseNetworkException(defaultErrorMessage);
             reference = FirebaseDatabase.getInstance().getReference().child(firebaseClientePathFirstKey);
+            if(loadingDialog != null) loadingDialog.tick(); // 1
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(loadingDialog != null) loadingDialog.tick(); // 2
                     try{
                         if(dataSnapshot.getValue() == null) throw new FirebaseDatabaseException(EXCEPTION_EMPTY_CLIENT_DATABASE);
                         for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
@@ -48,9 +53,10 @@ public class ApiClientes implements DefaultErrorMessage, FirebaseClientePaths, F
                             );
                             clientesMap.put(cliente.getUid(), cliente);
                         }
-                        if(activityIsRunning()) apiClientesCallback.onCallback(clientesMap);
+                        if(loadingDialog != null) loadingDialog.tick(); // 3
+                        if(ActivityStatus.activityIsRunning(activity)) apiClientesCallback.onCallback(clientesMap);
                     }catch (Exception e){
-                        if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                        if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                         else ErrorHandling.handleError(contextException, e);
                     }
                 }
@@ -58,17 +64,14 @@ public class ApiClientes implements DefaultErrorMessage, FirebaseClientePaths, F
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Exception e = databaseError.toException();
-                    if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                    if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
                     else ErrorHandling.handleError(contextException, e);
                 }
             });
         }catch (Exception e){
-            if(activityIsRunning()) ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+            if(ActivityStatus.activityIsRunning(activity)) ErrorHandling.handleError(contextException, e, loadingDialog, errorDialog);
             else ErrorHandling.handleError(contextException, e);
         }
     }
 
-    private boolean activityIsRunning(){
-        return !(activity.isFinishing() || activity.isDestroyed());
-    }
 }

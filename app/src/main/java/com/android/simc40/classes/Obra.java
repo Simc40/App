@@ -79,21 +79,6 @@ public class Obra implements Serializable, LayoutExceptionErrorList {
         return "Obra{" + "\n" +
                 "uid='" + uid + '\'' + "\n" +
                 ", nomeObra='" + nomeObra + '\'' + "\n" +
-                ", responsavel='" + responsavel + '\'' + "\n" +
-                ", tipoConstrucao='" + tipoConstrucao + '\'' + "\n" +
-                ", cep='" + cep + '\'' + "\n" +
-                ", cidade='" + cidade + '\'' + "\n" +
-                ", bairro='" + bairro + '\'' + "\n" +
-                ", endereco='" + endereco + '\'' + "\n" +
-                ", uf='" + uf + '\'' + "\n" +
-                ", pdfUrl='" + pdfUrl + '\'' + "\n" +
-                ", pecasPlanejadas='" + pecasPlanejadas + '\'' + "\n" +
-                ", previsaoInicio='" + previsaoInicio + '\'' + "\n" +
-                ", previsaoFim='" + previsaoFim + '\'' + "\n" +
-                ", creation='" + creation + '\'' + "\n" +
-                ", createdBy='" + createdBy + '\'' + "\n" +
-                ", lastModifiedOn='" + lastModifiedOn + '\'' + "\n" +
-                ", lastModifiedBy='" + lastModifiedBy + '\'' + "\n" +
                 '}';
     }
 

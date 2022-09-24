@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/drawable/border.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/drawable/border_with_white_background.xml" value="0.3828125" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/drawable/card_view_one_dp_border.xml" value="0.3828125" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/drawable/loading_page_background.xml" value="0.2" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout-authentication/authentication_login.xml" value="0.13125" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout-authentication/authentication_register.xml" value="0.13125" />
@@ -28,14 +31,17 @@
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/activity_read_write.xml" value="0.1911231884057971" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/authentication/activity_login.xml" value="0.19610507246376813" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/authentication_forgot_password.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/authentication_login.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/authentication_login_splash_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/authentication_register.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/configleitor_lista_leitores.xml" value="0.1484375" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/configuracaoLeitor_lista_leitores.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/configuracao_leitor_menu_leitores.xml" value="0.1911231884057971" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/configuracao_leitor_qrcode_scan_activity.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/configuracao_usuario.xml" value="0.24201561391057488" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_2_list_item.xml" value="0.23072916666666668" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_2_list_item_checkbox.xml" value="0.4" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_2_list_item_header.xml" value="0.2" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_image_header.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_image_item.xml" value="0.36666666666666664" />
@@ -43,7 +49,7 @@
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_item_header.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_item_ordered.xml" value="0.23072916666666668" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_item_ordered_header.xml" value="0.23072916666666668" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_item_start.xml" value="0.1078125" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_item_start.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_3_list_item_start_header.xml" value="0.2" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_4_list_item.xml" value="0.4" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_4_list_item_header.xml" value="0.309375" />
@@ -57,6 +63,9 @@
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_tag_item.xml" value="0.4" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_tag_layout.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/custom_tag_layout_header.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/dialog_image.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/dialog_loading.xml" value="0.4" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/dialog_success.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/display_loaded_pdf.xml" value="0.4" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/display_uploaded_image.xml" value="0.2" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/error_dialog.xml" value="0.4" />
@@ -68,12 +77,14 @@
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/galpoes_list_item_header.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciamento_acessos.xml" value="0.23466666666666666" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciamento_checklist.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciamento_elementos.xml" value="0.264" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciamento_obras.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciamento_elementos.xml" value="0.24851680949241925" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciamento_obras.xml" value="0.23687281213535588" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciar_galpoes_list_item.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/gerenciar_galpoes_list_item_header.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/home.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/home_modulo_de_gerenciamento.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/image_activity.xml" value="0.21145833333333333" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/image_dialog.xml" value="0.3401268115942029" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/info_dialog.xml" value="0.536" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/loading_page.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/loading_page_background.xml" value="0.36666666666666664" />
@@ -121,30 +132,36 @@
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mproducao_liberacao.xml" value="0.2" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mproducao_modulo_de_producao.xml" value="0.19157608695652173" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mqualidade_modulo_de_montagem.xml" value="0.264" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mqualidade_relatorio_de_erros.xml" value="0.2847424684159378" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mqualidade_relatorio_de_erros.xml" value="0.5131964809384164" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mtransporte_carga.xml" value="0.18452380952380953" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mtransporte_descarga.xml" value="0.1987179487179487" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/mtransporte_modulo_de_transporte.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/qr_code_model.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/question_dialog.xml" value="0.35144927536231885" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/read_write_test_1128.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/readertest_read_write_1128.xml" value="0.4" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/register.xml" value="0.13020833333333334" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro.xml" value="0.2234375" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_filtros.xml" value="0.3423110338835795" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro.xml" value="0.264" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro_checklist_layout.xml" value="0.264" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro_de_modelo.xml" value="0.2318840579710145" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro_de_peca.xml" value="0.2234375" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro_de_planejamento.xml" value="0.2234375" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_solucionar_erro.xml" value="0.2" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_relatar_erro_tag_layout.xml" value="0.4" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/relatorioerros_solucionar_erro.xml" value="0.3421235253296322" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_clientes.xml" value="0.3451086956521739" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_elementos.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_etapas.xml" value="0.365036231884058" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_etapas.xml" value="0.2" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_galpoes.xml" value="0.15572916666666667" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_informacoes_de_projeto.xml" value="0.159375" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_leitores.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_modelo.xml" value="0.1484375" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_obras.xml" value="0.264" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_pecas.xml" value="0.2682291666666667" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_producao.xml" value="0.23072916666666668" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_usuarios.xml" value="0.2421875" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/selecao_lista_veiculos.xml" value="0.23143115942028986" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/success_dialog.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/supervisao_relatorio.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/supervisao_relatorio_filtrar_tag.xml" value="0.15260416666666668" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/layout/supervisao_relatorio_pesquisar_result.xml" value="0.15260416666666668" />
@@ -153,6 +170,7 @@
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/menu/reader_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/julio/AndroidStudioProjects/simc40/app/src/main/res/xml/file_paths.xml" value="0.14270833333333333" />
       </map>
     </option>
   </component>

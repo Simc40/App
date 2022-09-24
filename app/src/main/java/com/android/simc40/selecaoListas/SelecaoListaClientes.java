@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.simc40.R;
 import com.android.simc40.classes.Cliente;
 import com.android.simc40.doubleClick.DoubleClick;
-import com.android.simc40.errorDialog.ErrorDialog;
+import com.android.simc40.dialogs.ErrorDialog;
 import com.android.simc40.errorHandling.DefaultErrorMessage;
 import com.android.simc40.errorHandling.ErrorHandling;
 import com.android.simc40.errorHandling.FirebaseDatabaseException;
@@ -21,7 +21,7 @@ import com.android.simc40.errorHandling.FirebaseDatabaseExceptionErrorList;
 import com.android.simc40.firebaseApiGET.ApiClientes;
 import com.android.simc40.firebaseApiGET.ApiClientesCallback;
 import com.android.simc40.firebasePaths.FirebaseClientePaths;
-import com.android.simc40.loadingPage.LoadingPage;
+import com.android.simc40.dialogs.LoadingDialog;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SelecaoListaClientes extends AppCompatActivity implements DefaultErrorMessage, FirebaseClientePaths, FirebaseDatabaseExceptionErrorList {
@@ -29,9 +29,8 @@ public class SelecaoListaClientes extends AppCompatActivity implements DefaultEr
     LinearLayout header;
     LinearLayout listaLayout;
     TextView goBack;
-    String contextException = "SelecClientes";
     DoubleClick doubleClick = new DoubleClick();
-    LoadingPage loadingPage;
+    LoadingDialog loadingDialog;
     ErrorDialog errorDialog;
 
     @Override
@@ -40,8 +39,9 @@ public class SelecaoListaClientes extends AppCompatActivity implements DefaultEr
         setContentView(R.layout.selecao_lista_clientes);
 
         errorDialog = new ErrorDialog(SelecaoListaClientes.this);
-        loadingPage = new LoadingPage(SelecaoListaClientes.this, errorDialog);
-        loadingPage.showLoadingPage();
+        loadingDialog = new LoadingDialog(SelecaoListaClientes.this, errorDialog);
+        loadingDialog.showLoadingDialog(5 + ApiClientes.ticks);
+        loadingDialog.tick(); // 1
 
         header = findViewById(R.id.header);
         listaLayout = findViewById(R.id.listaLayout);
@@ -58,13 +58,17 @@ public class SelecaoListaClientes extends AppCompatActivity implements DefaultEr
         item3.setText(Text3);
         header.addView(headerXML);
 
+        loadingDialog.tick(); // 2
+
         goBack.setOnClickListener(view -> {
             if(doubleClick.detected()) return;
             onBackPressed();
         });
 
         try{
+            loadingDialog.tick(); // 3
             ApiClientesCallback apiClientesCallback = response -> {
+                loadingDialog.tick(); // 4
                 for(Cliente cliente: response.values()) {
                     View obj = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_4_list_item, listaLayout, false);
                     TextView objItem1 = obj.findViewById(R.id.item1);
@@ -86,17 +90,17 @@ public class SelecaoListaClientes extends AppCompatActivity implements DefaultEr
                             setResult(SelecaoListaClientes.RESULT_OK, intent);
                             finish();
                         }catch (Exception e){
-                            errorDialog.getButton().setOnClickListener(buttonView1 -> onBackPressed());
-                            ErrorHandling.handleError(contextException, e, loadingPage, errorDialog);
+                            ErrorHandling.handleError(this.getClass().getSimpleName(), e, loadingDialog, errorDialog);
                         }
                     });
                     listaLayout.addView(obj);
                 }
-                loadingPage.endLoadingPage();
+                loadingDialog.finalTick(); // 5
+                loadingDialog.endLoadingDialog();
             };
-            new ApiClientes(SelecaoListaClientes.this, contextException, loadingPage, errorDialog, apiClientesCallback);
+            new ApiClientes(this, this.getClass().getSimpleName(), loadingDialog, errorDialog, apiClientesCallback);
         }catch (Exception e){
-            ErrorHandling.handleError(contextException, e, errorDialog);
+            ErrorHandling.handleError(this.getClass().getSimpleName(), e, errorDialog);
             FirebaseAuth.getInstance().signOut();
         }
     }
@@ -113,7 +117,7 @@ public class SelecaoListaClientes extends AppCompatActivity implements DefaultEr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingPage.endLoadingPage();
+        loadingDialog.endLoadingDialog();
         errorDialog.endErrorDialog();
     }
 }

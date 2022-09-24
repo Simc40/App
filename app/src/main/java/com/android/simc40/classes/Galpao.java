@@ -3,6 +3,8 @@ package com.android.simc40.classes;
 import java.io.Serializable;
 
 public class Galpao implements Serializable {
+    public static final String disponivel = "Disponível";
+    public static final String indisponivel = "Indisponível";
     String uid;
     String nome;
     String status;
@@ -34,6 +36,7 @@ public class Galpao implements Serializable {
     public String getUid() {return (uid != null) ? uid : "";}
     public String getNome() {return (nome != null) ? nome : "";}
     public String getStatus() {return (status != null) ? status : "";}
+    public String getPrettyStatus() {return (status != null) ? (status.equals("ativo")) ? disponivel : indisponivel  : "";}
     public String getCreation() {return (creation != null) ? creation : "";}
     public String getCreatedBy() {return (createdBy != null) ? createdBy : "";}
     public String getLastModifiedOn() {return (lastModifiedOn != null) ? lastModifiedOn : "";}

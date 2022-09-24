@@ -27,12 +27,16 @@
     <string name="ultimaModificacao">Ultima\nModificação</string>
     <string name="autorModificacao">Modificado\nPor</string>
 
+    //Forgot Password
+    <string name="forgotPasswordTitle">Reiniciar a Senha</string>
+    <string name="forgotPasswordButton">Confirmar</string>
+
     //Login
     <string name="loginTitle">Sistema Integrado</string>
     <string name="loginEmail">Email</string>
     <string name="loginPassword">Senha</string>
     <string name="loginButton">Acessar</string>
-    <string name="loginRegister">Não tem conta? Solicite a sua conta aqui!</string>
+    <string name="loginForgotPassword">Esqueceu a Senha?</string>
 
     //Home
     <string name="homeLogOut">LogOut</string>
@@ -50,6 +54,7 @@
     <string name="selecaoListaElementos">Selecione um Elemento</string>
     <string name="selecaoListaVeiculos">Selecione um Veículo</string>
     <string name="selecaoListaEtapas">Selecione uma Etapa</string>
+    <string name="selecaoListaPecas">Selecione as Peças\nPara Relatar o Erro</string>
     <string name="selecaoListaUsuarios">Selecione um Usuário</string>
     <string name="selecaoListaLeitores">Selecione um Leitor</string>
 

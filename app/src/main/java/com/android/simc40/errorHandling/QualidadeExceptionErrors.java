@@ -14,11 +14,23 @@ public class QualidadeExceptionErrors implements QualidadeExceptionErrorList{
         put(EXCEPTION_MULTIPLE_SELECTED_TAGS, new String[]{"Mais de uma tag Selecionada", "É necessário Que haja apenas uma Tag na lista para prosseguir."});
         put(EXCEPTION_INPUT_FIELDS_ARE_NOT_VALID, new String[]{"Valor preenchido inválido", "É necessário preencher os campos corretamente para prosseguir."});
         put(EXCEPTION_TAG_NOT_FOUND, new String[]{"Tag não encontrada.", "Não foi possível identificar essa tag nessa Obra, selecione a obra correta, ou certifique-se que a peça está cadastrada."});
+        put(EXCEPTION_NO_SELECTED_TAG_ON_SUBMIT, new String[]{"Nenhuma Tag Selecionada.", "É necessário escanear uma TAG para prosseguir"});
+        put(EXCEPTION_MAX_POSSIBLE_READ_PECAS_REACHED, new String[]{"Número máximo de peças lidas atendido", "O número de Peças planejadas para o Elemento de "});
+        put(EXCEPTION_MAX_REGISTERED_PECAS_REACHED, new String[]{"Número de Peças Planejadas Já atendido", "O número de Peças cadastradas para o Elemento já é igual ao número de peças planejadas."});
+        put(EXCEPTION_REPORTAR_ERRO_TAG_NO_ITEM_REGISTERED, new String[]{"Sem registro de item do Checklist", "É necessário selecionar ao menos um item do checklist para a TAG."});
+        put(EXCEPTION_REPORTAR_ERRO_ITEM_NO_COMENTARIO_REGISTERED, new String[]{"Comentário sem Registro", "É necessário comentar todos os itens do checklist."});
+        put(EXCEPTION_CHECKLIST_NOT_FILLED, new String[]{"Checklist Incompleto", "É necessário selecionar todos os itens do checklist."});
+        put(EXCEPTION_PRODUCAO_INTERRUPTED, new String[]{"Processo de Produção Interrompido", "Existe uma inconformidade grave em Aberto para a tag selecionada. Resolva a inconformidade para prosseguir"});
+
     }};
 
     public static Map<String, String> getError(String errorCode){
         Map<String, String> response = new HashMap<>();
-        if(errorCode == null || errorList.get(errorCode) == null){
+        if(errorCode != null && errorCode.startsWith(EXCEPTION_MAX_POSSIBLE_READ_PECAS_REACHED)){
+            response.put("errorCode", Objects.requireNonNull(errorList.get(EXCEPTION_MAX_POSSIBLE_READ_PECAS_REACHED))[0]);
+            response.put("message", Objects.requireNonNull(errorList.get(EXCEPTION_MAX_POSSIBLE_READ_PECAS_REACHED))[1] + errorCode.replace(EXCEPTION_MAX_POSSIBLE_READ_PECAS_REACHED, "") + " Peças já foi atendido.");
+            return response;
+        }else if(errorCode == null || errorList.get(errorCode) == null){
             response.put("errorCode", "Erro no gerenciamento do Módulo de Qualidade");
             response.put("message", "Houve um erro inesperado no gerenciamento do módulo de Qualidade. Por favor contate o suporte!");
             return response;

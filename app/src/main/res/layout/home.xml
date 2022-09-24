@@ -50,12 +50,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avatar"
-            app:shapeAppearanceOverlay="@style/roundedImageView"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/male_avatar"
-            app:strokeColor="@null"/>
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            app:strokeColor="@null" />
 
         <TextView
             android:id="@+id/userName"
