@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".configuracaoLeitor.qrCode.ScanActivity">
+    tools:context="com.simc.simc40.configuracaoLeitor.qrCode.ScanActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

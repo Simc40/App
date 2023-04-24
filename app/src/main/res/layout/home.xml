@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".home.Home">
+    tools:context="com.simc.simc40.home.HomeLegacy"
+    android:id="@+id/Home">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -27,14 +28,6 @@
             style="@style/goBack"
             android:layout_marginTop="10dp"
             android:text="@string/homeLogOut" />
-
-        <TextView
-            android:id="@+id/changeReader"
-            style="@style/goBack"
-            android:gravity="center"
-            android:layout_alignEnd="@id/logo"
-            android:layout_marginEnd="10dp"
-            android:text="Trocar\nLeitor" />
     </RelativeLayout>
 
     <RelativeLayout

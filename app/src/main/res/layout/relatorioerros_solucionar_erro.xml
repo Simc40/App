@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray_background"
     android:orientation="vertical"
-    tools:context=".moduloQualidade.relatorioErros.SolucionarErro">
+    tools:context="com.simc.simc40.moduloQualidade.relatorioErros.SolucionarErro">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

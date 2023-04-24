@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".configuracaoLeitor.bluetooth_UHF_RFID_reader_1128.ReadWrite1128" >
+    tools:context="com.simc.simc40.configuracaoLeitor.bluetooth_UHF_RFID_reader_1128.ReadWrite1128" >
 
     <EditText
         android:id="@+id/targetTagEditText"

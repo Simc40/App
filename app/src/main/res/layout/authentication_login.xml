@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".authentication.Login">
+    tools:context="com.simc.simc40.authentication.Login"
+    android:id="@+id/Login">
 
     <TextView
         android:id="@+id/title"

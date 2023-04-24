@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".moduloQualidade.relatorioErros.RelatarErro">
+    tools:context="com.simc.simc40.moduloQualidade.relatorioErros.RelatarErro">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

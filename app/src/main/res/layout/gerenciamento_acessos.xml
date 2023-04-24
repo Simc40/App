@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".moduloGerenciamento.GerenciamentoAcessos">
+    tools:context="com.simc.simc40.moduloGerenciamento.GerenciamentoAcessos">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

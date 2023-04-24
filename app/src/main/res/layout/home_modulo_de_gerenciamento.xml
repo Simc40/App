@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".home.ModuloDeGerenciamento">
+    tools:context="com.simc.simc40.home.ModuloDeGerenciamento">
 
     <ImageView
         android:id="@+id/logo"
@@ -89,7 +89,8 @@
                         android:src="@drawable/truck" />
                     <TextView
                         style="@style/textFromCard"
-                        android:text="@string/moduloGerenciamentoVeiculosTitle"/>
+                        android:textSize="12dp"
+                        android:text="@string/moduloGerenciamentoTransportadorasTitle"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

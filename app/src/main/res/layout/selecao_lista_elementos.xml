@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".selecaoListas.SelecaoListaElementos">
+    tools:context="com.simc.simc40.selecaoListas.SelecaoListaElementos">
 
     <ImageView
         android:id="@+id/logo"

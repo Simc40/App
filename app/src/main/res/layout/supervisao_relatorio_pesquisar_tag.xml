@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray_background"
-    tools:context=".supervisao_relatorio.pesquisar.PesquisarTag"
+    tools:context="com.simc.simc40.supervisao_relatorio.pesquisar.PesquisarTag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">

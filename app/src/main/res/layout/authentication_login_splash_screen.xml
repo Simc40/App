@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".authentication.LoginSplashScreen">
+    tools:context="com.simc.simc40.authentication.LoginSplashScreen"
+    android:id="@+id/LoginSplashScreen">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

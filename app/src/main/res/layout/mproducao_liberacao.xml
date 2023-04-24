@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".moduloQualidade.moduloProducao.Liberacao">
+    tools:context="com.simc.simc40.moduloQualidade.moduloProducao.LiberacaoLegacy">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -56,53 +56,6 @@
                         android:textSize="25sp" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                style="@style/horizontalMargin20dp">
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/obraheader"
-                    style="@style/layoutMatchWrap"
-                    app:cardBackgroundColor="@color/black">
-                    <TextView
-                        style="@style/mQualidadeBlackHeaderText"
-                        android:text="@string/obra"/>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_below="@+id/obraheader"
-                    style="@style/WhiteCard">
-                    <TextView
-                        android:id="@+id/obra"
-                        style="@style/WhiteCardText"/>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
-                    android:layout_below="@+id/obraheader"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                style="@style/horizontalMargin20dp">
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/modeloHeader"
-                    style="@style/layoutMatchWrap"
-                    app:cardBackgroundColor="@color/black">
-                    <TextView
-                        style="@style/mQualidadeBlackHeaderText"
-                        android:text="@string/elemento_da_peca"/>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_below="@+id/modeloHeader"
-                    style="@style/WhiteCard">
-                    <TextView
-                        android:id="@+id/elemento"
-                        android:text="@string/selecionar_elemento"
-                        style="@style/WhiteCardText"/>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
-                    android:layout_below="@+id/modeloHeader"/>
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_marginTop="20dp"
@@ -162,6 +115,76 @@
                     android:text="@string/clear_button_text"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/obraheader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/obra"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/obraheader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/obra"
+                        style="@style/WhiteCardText"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/obraheader"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/pecaHeader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/nome_da_peca"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/pecaHeader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/nomePeca"
+                        style="@style/WhiteCardText"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/pecaHeader"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                style="@style/horizontalMargin20dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/galpaoHeader"
+                    style="@style/layoutMatchWrap"
+                    app:cardBackgroundColor="@color/black">
+                    <TextView
+                        style="@style/mQualidadeBlackHeaderText"
+                        android:text="@string/galpao_destino"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/galpaoHeader"
+                    style="@style/WhiteCard">
+                    <TextView
+                        android:id="@+id/galpao"
+                        android:text="@string/selecionar_galpao"
+                        style="@style/WhiteCardText"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    style="@style/mQualidadeWhiteViewUnderBlackHeader"
+                    android:layout_below="@+id/galpaoHeader"/>
+            </RelativeLayout>
 
             <View
                 style="@style/whiteLine"/>

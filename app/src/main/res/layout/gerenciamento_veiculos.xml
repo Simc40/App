@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".moduloGerenciamento.GerenciamentoVeiculos">
+    tools:context="com.simc.simc40.moduloGerenciamento.GerenciamentoVeiculos">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                     app:cardCornerRadius="15dp">
                     <TextView
                         style="@style/mQualidadeButtonText"
-                        android:text="@string/moduloGerenciamentoObrasTableTitle"
+                        android:text="@string/moduloGerenciamentoVeiculosTableTitle"
                         android:textColor="#FFFFFF" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>

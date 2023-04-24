@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
-    tools:context=".moduloQualidade.moduloProducao.Armacao">
+    tools:context="com.simc.simc40.moduloQualidade.moduloProducao.ArmacaoLegacy">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -143,23 +143,23 @@
                 android:layout_marginTop="20dp"
                 style="@style/horizontalMargin20dp">
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/modeloHeader"
+                    android:id="@+id/pecaHeader"
                     style="@style/layoutMatchWrap"
                     app:cardBackgroundColor="@color/black">
                     <TextView
                         style="@style/mQualidadeBlackHeaderText"
-                        android:text="@string/elemento_da_peca"/>
+                        android:text="@string/nome_da_peca"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_below="@+id/modeloHeader"
+                    android:layout_below="@+id/pecaHeader"
                     style="@style/WhiteCard">
                     <TextView
-                        android:id="@+id/elemento"
+                        android:id="@+id/nomePeca"
                         style="@style/WhiteCardText"/>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     style="@style/mQualidadeWhiteViewUnderBlackHeader"
-                    android:layout_below="@+id/modeloHeader"/>
+                    android:layout_below="@+id/pecaHeader"/>
             </RelativeLayout>
 
             <View

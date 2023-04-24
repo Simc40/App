@@ -51,8 +51,10 @@
     <string name="selecaoListaObras">Selecione uma Obra</string>
     <string name="selecaoListaClientes">Selecione um Cliente</string>
     <string name="selecaoListaGalpões">Galpões</string>
+    <string name="selecaoListaRomaneio">Romaneios</string>
     <string name="selecaoListaElementos">Selecione um Elemento</string>
-    <string name="selecaoListaVeiculos">Selecione um Veículo</string>
+    <string name="selecaoListaPecaCadastro">Selecione uma Peça</string>
+    <string name="selecaoListaTransportadoras">Selecione uma Transportadora</string>
     <string name="selecaoListaEtapas">Selecione uma Etapa</string>
     <string name="selecaoListaPecas">Selecione as Peças\nPara Relatar o Erro</string>
     <string name="selecaoListaUsuarios">Selecione um Usuário</string>
@@ -62,7 +64,7 @@
     <string name="moduloGerenciamentoTitle">Módulo de Gerenciamento</string>
     <string name="moduloGerenciamentoObrasTitle">Obras</string>
     <string name="moduloGerenciamentoElementosTitle">Elementos</string>
-    <string name="moduloGerenciamentoVeiculosTitle">Veículos</string>
+    <string name="moduloGerenciamentoTransportadorasTitle">Transportadoras</string>
     <string name="moduloGerenciamentoAcessosTitle">Acessos</string>
     <string name="moduloGerenciamentoCheckListTitle">CheckList</string>
     <string name="moduloGerenciamentoGalpoesTitle">Galpões</string>
@@ -80,6 +82,12 @@
     <string name="moduloGerenciamentoObrasQuantidadePecas">Peças\nPlanejadas</string>
     <string name="moduloGerenciamentoObrasPrevisaoInicio">Previsão\nde Início</string>
     <string name="moduloGerenciamentoObrasPrevisaoFim">Previsão\nde Entrega</string>
+
+    //Gerenciamento Galpões
+    <string name="moduloGerenciamentoGalpoesTableTitle">Informações do Galpão</string>
+    <string name="moduloGerenciamentoGalpoesNome">Nome do Galpão</string>
+    <string name="moduloGerenciamentoGalpoesStatus">Status</string>
+    <string name="moduloGerenciamentoGalpoesControle">Controle de Peças</string>
 
     //Gerenciamento Elementos
     <string name="moduloGerenciamentoElementosObra">Pertencente a Obra</string>
@@ -99,6 +107,8 @@
     <string name="moduloGerenciamentoElementosTaxaAco">Peso do Aço</string>
 
     //Gerenciamento Veiculos
+    <string name="moduloGerenciamentoVeiculosTableTitle">Informações da Veículo</string>
+    <string name="moduloGerenciamentoVeiculosTitle">Veículos</string>
     <string name="moduloGerenciamentoVeiculosTransportadora">Transportadora</string>
     <string name="moduloGerenciamentoVeiculosPlaca">Placa</string>
     <string name="moduloGerenciamentoVeiculosMarca">Marca</string>
@@ -106,6 +116,15 @@
     <string name="moduloGerenciamentoVeiculosCapacidadeCarga">Capacidade de Carga</string>
     <string name="moduloGerenciamentoVeiculosNumeroEixos">Numero de Eixos</string>
     <string name="moduloGerenciamentoVeiculosPeso">Peso</string>
+
+    //Gerenciamento Motoristas
+    <string name="moduloGerenciamentoMotoristasTableTitle">Informações da Motorista</string>
+    <string name="moduloGerenciamentoMotoristasTitle">Motoristas</string>
+    <string name="moduloGerenciamentoMotoristasTransportadora">Transportadora</string>
+    <string name="moduloGerenciamentoMotoristasNome">Nome</string>
+    <string name="moduloGerenciamentoMotoristasCNH">CNH</string>
+    <string name="moduloGerenciamentoMotoristasEmail">Email</string>
+    <string name="moduloGerenciamentoMotoristasTelefone">Telefone</string>
 
     //Gerenciamento Acessos
     <string name="moduloGerenciamentoAcessosNome">Nome do Usuário</string>
@@ -154,9 +173,10 @@
     <string name="moduloQualidade">Módulo de Qualidade</string>
 
 
-    <string name="connect_reader_menu_item_text">Connect Reader</string>
-    <string name="change_reader_menu_item_text">Change Reader</string>
-    <string name="disconnect_reader_menu_item_text">Disconnect Reader</string>
+    <string name="connect_reader_menu_item_text">Connect RFID</string>
+    <string name="change_reader_menu_item_text">Change RFID Reader</string>
+    <string name="disconnect_reader_menu_item_text">Disconnect RFID</string>
+    <string name="connect_qr_code_menu_item_text">Connect QrCode</string>
     <string name="obras">Obras</string>
     <string name="leitura_da_tag">Leitura da TAG</string>
     <string name="pesquisar">Pesquisar</string>
@@ -198,6 +218,7 @@
     <string name="numero">Número</string>
     <string name="cadastro_de_peca">Cadastro de Peça</string>
     <string name="elemento_da_peca">Elemento da Peça</string>
+    <string name="galpao_destino">Galpão de Destino</string>
     <string name="reportar_erro">Reportar Erro</string>
     <string name="selecionar_elemento">Selecionar Elemento</string>
     <string name="tag">Tag</string>
@@ -251,6 +272,6 @@
     <string name="transporte_ndescarga">Transporte\nDescarga</string>
     <string name="veiculo">Veículo</string>
     <string name="selecionar_uma_tag">Selecione uma Tag</string>
-
-
+    <string name="motorista">Motorista</string>
+    <string name="transporte">Transporte</string>
 </resources>
